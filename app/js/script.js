@@ -26,17 +26,17 @@ function initScene() {
         /*
         * FOG
         * */
-    //scene.fogMode = BABYLON.Scene.FOGMODE_EXP;
-    //scene.fogDensity = 0.1;
+    scene.fogMode = BABYLON.Scene.FOGMODE_EXP;
+    scene.fogDensity = 0.1;
 
         /*
         * Background music
         * */
 
-    //var music = new BABYLON.Sound("Music", "01. BT-7274.mp3", scene, null, {
-    //   loop: true,
-    //   autoplay: true
-    //});
+    var music = new BABYLON.Sound("Music", "01. BT-7274.mp3", scene, null, {
+       loop: true,
+       autoplay: true
+    });
 
     var camera = new BABYLON.FreeCamera('camera', new BABYLON.Vector3(10, 20, 20), scene);
     camera.setTarget(BABYLON.Vector3.Zero());
@@ -224,7 +224,7 @@ function initScene() {
     }
 
     var pillarDiameter = 1.5;
-    var pillarHeight = wallHeight - stepNum * stepHeight;
+    var pillarHeight = 3*wallHeight - stepNum * stepHeight;
     var pillarLocation = ((stepSize - 4 * stepNum * stepHeight) / 2) * 7 / 8;
 
     var pillarMat = new BABYLON.StandardMaterial('pillar', scene);
@@ -256,6 +256,13 @@ function initScene() {
 
     var pillar3 = pillar.clone('pillar3');
     pillar3.position.z -= 2 * pillarLocation;
+
+    /**
+     * DODAM NOVO PLATFORMO
+     * */
+    var platform2 = platform.clone('platform2');
+    platform2.position.y = 3*wallHeight - stepNum * stepHeight + 0.6;
+    platform2.rotation.x += Math.PI;
 
     var tableDiameter = (stepSize - 4 * stepNum * stepHeight) * (3 / 5);
     var tableHeight = 1;
