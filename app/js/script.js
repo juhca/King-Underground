@@ -38,10 +38,20 @@ function initScene() {
     //   autoplay: true
     //});
 
-    var camera = new BABYLON.FreeCamera('camera', new BABYLON.Vector3(0, 50, -50), scene);
+    var camera = new BABYLON.FreeCamera('camera', new BABYLON.Vector3(10, 20, 20), scene);
     camera.setTarget(BABYLON.Vector3.Zero());
     camera.attachControl(canvas);
 
+    /** ===================================================
+     * DODAJAM GRAVITACIJO
+     * */
+
+    scene.gravity = new BABYLON.Vector3(0, -9.81, 0);
+    camera.applyGravity = true;
+    camera.ellipsoid = new BABYLON.Vector3(1, 1, 1);
+    scene.collisionsEnabled = true;
+    camera.checkCollisions = true;
+    //camera.speed = 0.3;
     var h = new BABYLON.HemisphericLight('hemi', new BABYLON.Vector3(0, 1, 0), scene);
 
     //var plPosition = new BABYLON.Vector3(0, 25, 0);
@@ -83,15 +93,13 @@ function initScene() {
     }, scene);
     ground.scaling.y = 0.01;
     ground.material = groundMaterial;
-
+    ground.checkCollisions = true;
 
     var wallMaterial = new BABYLON.StandardMaterial('wall', scene);
     wallMaterial.diffuseTexture = new BABYLON.Texture("wall.jpg", scene);
     wallMaterial.specularColor = new BABYLON.Color3.Black();
     wallMaterial.diffuseTexture.uScale = 1.5;
     wallMaterial.diffuseTexture.vScale = 4.0;
-    //wallMaterial.diffuseColor = new BABYLON.Color3.Gray();
-
     // +x
     var wall = BABYLON.MeshBuilder.CreateBox('wall1', {
         height: wallHeight,
@@ -101,50 +109,56 @@ function initScene() {
     wall.position.y += wallHeight / 2;
     wall.position.x += roomLength / 2 - wallWidth / 2;
     wall.material = wallMaterial;
+    wall.checkCollisions = true;
 
     // -x
     var wall2 = wall.clone('wall2');
     wall2.position.x -= roomLength - wallWidth;
+    wall2.position.z -= 20.5
+
+    var wall3 = wall.clone('wall3');
+    wall3.position.x -= roomLength - wallWidth;
+    wall3.position.z += 15.5;
 
     // +z
-    var wall3 = wall.clone('wall3');
-    wall3.position.x -= roomLength / 2 - wallWidth / 2;
-    wall3.position.z += roomLength / 2 - wallWidth / 2;
-    wall3.rotation.y += Math.PI / 2;
-
-    // -z
     var wall4 = wall.clone('wall4');
     wall4.position.x -= roomLength / 2 - wallWidth / 2;
-    wall4.position.z -= roomLength / 2 - wallWidth / 2;
+    wall4.position.z += roomLength / 2 - wallWidth / 2;
     wall4.rotation.y += Math.PI / 2;
 
-    // +x+z
+    // -z
     var wall5 = wall.clone('wall5');
-    wall5.scaling.z *= Math.sqrt(2 * Math.pow(octagonE, 2)) / (roomLength - 2 * octagonE);
-    wall5.position.x -= octagonE / 2;
-    wall5.position.z += roomLength / 2 - octagonE / 2 - wallWidth / 2;
-    wall5.rotation.y -= Math.PI / 4;
+    wall5.position.x -= roomLength / 2 - wallWidth / 2;
+    wall5.position.z -= roomLength / 2 - wallWidth / 2;
+    wall5.rotation.y += Math.PI / 2;
 
-    // -x+z
+    // +x+z
     var wall6 = wall.clone('wall6');
     wall6.scaling.z *= Math.sqrt(2 * Math.pow(octagonE, 2)) / (roomLength - 2 * octagonE);
-    wall6.position.x -= roomLength - octagonE / 2 - wallWidth;
+    wall6.position.x -= octagonE / 2;
     wall6.position.z += roomLength / 2 - octagonE / 2 - wallWidth / 2;
-    wall6.rotation.y += Math.PI / 4;
+    wall6.rotation.y -= Math.PI / 4;
 
-    // -x-z
+    // -x+z
     var wall7 = wall.clone('wall7');
     wall7.scaling.z *= Math.sqrt(2 * Math.pow(octagonE, 2)) / (roomLength - 2 * octagonE);
     wall7.position.x -= roomLength - octagonE / 2 - wallWidth;
-    wall7.position.z -= roomLength / 2 - octagonE / 2 - wallWidth / 2;
-    wall7.rotation.y -= Math.PI / 4;
+    wall7.position.z += roomLength / 2 - octagonE / 2 - wallWidth / 2;
+    wall7.rotation.y += Math.PI / 4;
 
-    // +x-z
+    // -x-z
     var wall8 = wall.clone('wall8');
     wall8.scaling.z *= Math.sqrt(2 * Math.pow(octagonE, 2)) / (roomLength - 2 * octagonE);
-    wall8.position.x -= octagonE / 2;
+    wall8.position.x -= roomLength - octagonE / 2 - wallWidth;
     wall8.position.z -= roomLength / 2 - octagonE / 2 - wallWidth / 2;
-    wall8.rotation.y += Math.PI / 4;
+    wall8.rotation.y -= Math.PI / 4;
+
+    // +x-z
+    var wall9 = wall.clone('wall9');
+    wall9.scaling.z *= Math.sqrt(2 * Math.pow(octagonE, 2)) / (roomLength - 2 * octagonE);
+    wall9.position.x -= octagonE / 2;
+    wall9.position.z -= roomLength / 2 - octagonE / 2 - wallWidth / 2;
+    wall9.rotation.y += Math.PI / 4;
 
     var ceilMat = new BABYLON.StandardMaterial('ceilMat', scene);
     ceilMat.diffuseTexture = new BABYLON.Texture('roof.jpg', scene);
@@ -183,7 +197,6 @@ function initScene() {
     platformMat.specularColor = new BABYLON.Color3.Black();
     platformMat.diffuseTexture.uScale = 3.0;
     platformMat.diffuseTexture.vScale = 3.0;
-    //platformMat.diffuseColor = new BABYLON.Color3.Blue();
 
 
     var platform = false;
@@ -205,6 +218,7 @@ function initScene() {
 
     if (platform) {
         platform = platform.toMesh('platform', platformMat, scene, false);
+        //platform.checkCollisions = true;
     } else {
         console.error('platform not initiated');
     }
@@ -218,7 +232,6 @@ function initScene() {
     pillarMat.specularColor = new BABYLON.Color3.Black();
     pillarMat.diffuseTexture.uScale = 1.5;
     pillarMat.diffuseTexture.vScale = 2.0;
-    //pillarMat.diffuseColor = new BABYLON.Color3.Gray();
 
     var pillar = BABYLON.MeshBuilder.CreateCylinder('pillar1', {
         height: pillarHeight,
@@ -230,6 +243,7 @@ function initScene() {
     pillar.position.x += pillarLocation;
     pillar.position.z += pillarLocation;
     pillar.material = pillarMat;
+    pillar.checkCollisions = true;
 
     // -x+z
     var pillar1 = pillar.clone('pillar1');
@@ -247,7 +261,10 @@ function initScene() {
     var tableHeight = 1;
 
     var tableMat = new BABYLON.StandardMaterial('table', scene);
-    tableMat.diffuseColor = new BABYLON.Color3.Gray();
+    tableMat.diffuseTexture = new BABYLON.Texture("tableTop.jpg", scene);
+    tableMat.specularColor = new BABYLON.Color3.Black();
+    tableMat.diffuseTexture.uScale = 3.0;
+    tableMat.diffuseTexture.vScale = 3.0;
 
     var tableBot = BABYLON.MeshBuilder.CreateCylinder('tableBot', {
         height: tableHeight * (2 / 3),
@@ -255,6 +272,7 @@ function initScene() {
         diameterBottom: tableDiameter * (2 / 3)
     }, scene);
     tableBot.position.y += (tableHeight * (2 / 3)) / 2 + stepNum * stepHeight;
+    tableBot.checkCollisions = true;
     tableBot.material = tableMat;
 
     var tableTop = BABYLON.MeshBuilder.CreateCylinder('tableTop', {
@@ -263,6 +281,74 @@ function initScene() {
         diameterBottom: tableDiameter * (1 / 3)
     }, scene);
     tableTop.position.y = tableBot.position.y + tableHeight * (1 / 3);
+    tableTop.checkCollisions = true;
     tableTop.material = tableMat;
 
+    /** ============================================================================0
+     * DODATNE STENE ZA NA HODNIK
+     **/
+    var wall10 = wall.clone('wall10');
+    wall10.position.x -= roomLength - wallWidth + 14.5;
+    wall10.rotation.y += Math.PI/2;
+
+    var wall11 = wall.clone('wall11');
+    wall11.position.x -= roomLength - wallWidth + 14.5;
+    wall11.position.z -= 5;
+    wall11.rotation.y += Math.PI/2;
+
+    /** ================================================================================
+    * STENE ZA KLACINO
+    * */
+    var wall12 = wall.clone('wall12');
+    wall12.position.x -= 2*roomLength - wallWidth - 11.0;
+    wall12.position.y += 6;
+    wall12.position.z += 0.01;
+    wall12.rotation.y += Math.PI/2;
+    wall12.rotation.x += Math.PI/6;
+
+    var wall13 = wall.clone('wall13');
+    wall13.position.x -= 2*roomLength - wallWidth - 11.0;
+    wall13.position.y += 6;
+    wall13.position.z -= 5;
+    wall13.position.z += 0.01;
+    wall13.rotation.y += Math.PI/2;
+    wall13.rotation.x += Math.PI/6;
+
+    /**
+     * ==============================================================================
+     * TLA ZA HODNIK
+     */
+    var ground2 = BABYLON.MeshBuilder.CreateBox('ground2', {
+        size: 40,
+        width: 20,
+        height: 1
+    }, scene);
+
+    ground2.scaling.y = 0.01;
+    ground2.position.z -= 2.5;
+    ground2.position.x -= 45;
+    ground2.rotation.y += Math.PI/2;
+    ground2.material = groundMaterial;
+    ground2.checkCollisions = true;
+    /**
+     * ==============================================================================
+     * TLA ZA KLANCICO
+     */
+    var ground3 = BABYLON.MeshBuilder.CreateBox('ground3', {
+        size: 40,
+        width: 20,
+        height: 5
+    }, scene);
+
+    ground3.scaling.y = 0.01;
+    ground3.position.z -= 2.5;
+    ground3.position.x -= 70;
+    ground3.position.y += 9.4;
+    ground3.rotation.y += Math.PI/2;
+    ground3.rotation.x += Math.PI/6;
+    ground3.material = groundMaterial;
+    ground3.checkCollisions = true;
+
+    /**
+     * */
 }
