@@ -1,4 +1,4 @@
-var engine, scene, canvas, camera;
+var engine, scene, canvas;
 
 document.addEventListener('DOMContentLoaded', function() {
     onload();
@@ -27,19 +27,15 @@ function initScene() {
     camera.setTarget(BABYLON.Vector3.Zero());
     camera.attachControl(canvas);
 
-        // omogocim gravitacijo
-    //scene.gravity = new BABYLON.Vector3(0, -9.81, 0);
-    // camera.applyGravity = true;
-    //camera.ellipsoid = new BABYLON.Vector3(1, 1, 1);
     scene.collisionsEnabled = true;
-    camera.checkCollisions = true;
-    //camera.speed = 0.3;
 
-        // ustvarim luč
+    camera.checkCollisions = true;
+
+    // ustvarim luč
     var h = new BABYLON.HemisphericLight('hemi', new BABYLON.Vector3(0, 1, 0), scene);
     //h.position = new BABYLON.Vector3(0, 5.0, 0);
 
-        // prikazem koordinatni sistem
+    // prikazem koordinatni sistem
     var showAxis = function(size) {
         var axisX = BABYLON.Mesh.CreateLines("axisX", [new BABYLON.Vector3.Zero(), new BABYLON.Vector3(size, 0, 0) ], scene);
         axisX.color = new BABYLON.Color3(1, 0, 0);
@@ -78,8 +74,8 @@ function initScene() {
      *  GLAVNA SOBANA
      *  =============
      **/
-        // ustvarim material za tla
-    var groundMaterial = createMaterial(scene, './textures/floor.jpg', 'ground', 5.0, 5.0, new BABYLON.Color3.Black());
+    // ustvarim material za tla
+    var groundMaterial = createMaterial(scene, './assets/textures/floor.jpg', 'ground', 5.0, 5.0, new BABYLON.Color3.Black());
         // ustvarim tla
     var ground = createBox(scene, groundMaterial, roomLength, 1, roomLength, 'ground');
     ground = properties(ground, 0, 0, 0, 0, 0, 0, 1, 0.01, 1);
@@ -87,7 +83,7 @@ function initScene() {
     glavna_sobana_zid(roomLength, wallHeight, wallWidth, octagonE);
     glavna_sobana_kupola(roomLength, wallHeight, wallWidth);
 
-        // podatki za stopnice
+    // podatki za stopnice
     var stepHeight = 0.2;
     var stepSize = roomLength / 3;
     var stepNum = 3;
@@ -95,7 +91,7 @@ function initScene() {
 
     glavna_sobana_stebri(wallHeight, stepHeight, stepSize, stepNum);
 
-        // podatki za mizo
+    // podatki za mizo
     var tableDiameter = (stepSize - 4 * stepNum * stepHeight) * (3 / 5);
     var tableHeight = 1;
     glavna_sobana_miza(tableDiameter, tableHeight, stepNum, stepHeight, h);
@@ -112,7 +108,7 @@ function initScene() {
      * GLAVNA SOBANA
      * **/
 function glavna_sobana_zid(roomLength, wallHeight, wallWidth, octagonE) {
-    var wallMaterial = createMaterial(scene, './textures/wall.jpg', 'wall', 1.5, 4.0, new BABYLON.Color3.Black());
+    var wallMaterial = createMaterial(scene, './assets/textures/wall.jpg', 'wall', 1.5, 4.0, new BABYLON.Color3.Black());
 
     var wall = createWall(scene, wallMaterial, wallHeight, wallWidth, roomLength, octagonE, 'wall1');
     wall = properties(wall, roomLength / 2 - wallWidth / 2, wallHeight / 2, 0, 0, 0, 0, 1, 1, 1);
@@ -138,7 +134,7 @@ function glavna_sobana_zid(roomLength, wallHeight, wallWidth, octagonE) {
 }
 
 function glavna_sobana_kupola(roomLength, wallHeight, wallWidth) {
-    var ceilMaterial = createMaterial(scene, './textures/roof.jpg', 'ground', 1.0, 1.0, new BABYLON.Color3.Yellow());
+    var ceilMaterial = createMaterial(scene, './assets/textures/roof.jpg', 'ground', 1.0, 1.0, new BABYLON.Color3.Yellow());
     var sphereDiameter = roomLength - 2 * wallWidth;
 
     var ceilSphere = createSphere(scene, ceilMaterial, sphereDiameter, wallHeight, 'ceilSphere', 0.5, BABYLON.Mesh.BACKSIDE);
@@ -153,7 +149,7 @@ function glavna_sobana_kupola(roomLength, wallHeight, wallWidth) {
 }
 
 function glavna_sobana_platforma(stepHeight, stepSize, stepNum) {
-    var platformMaterial = createMaterial(scene, "./textures/floor1.jpg", 'platform', 3.0, 3.0, new BABYLON.Color3.Black());
+    var platformMaterial = createMaterial(scene, "./assets/textures/floor1.jpg", 'platform', 3.0, 3.0, new BABYLON.Color3.Black());
     var platform = false;
 
     for (var i = 0; i < stepNum; i++) {
@@ -180,7 +176,7 @@ function glavna_sobana_stebri(wallHeight, stepHeight, stepSize, stepNum) {
     var pillarHeight = 1.2*wallHeight - stepNum * stepHeight;
     var pillarLocation = ((stepSize - 4 * stepNum * stepHeight) / 2) * 7 / 8;
 
-    var pillarMaterial = createMaterial(scene, "./textures/pillar.jpg", 'pillar', 1.5, 2.0, new BABYLON.Color3.Black());
+    var pillarMaterial = createMaterial(scene, "./assets/textures/pillar.jpg", 'pillar', 1.5, 2.0, new BABYLON.Color3.Black());
     var pillar = createCylinder(scene, pillarMaterial, pillarHeight, pillarDiameter, pillarDiameter, 'pillar1');
     pillar = properties(pillar, pillarLocation, (pillarHeight / 2 + stepNum * stepHeight), pillarLocation, 0, 0, 0, 1, 1, 1);
 
@@ -190,7 +186,7 @@ function glavna_sobana_stebri(wallHeight, stepHeight, stepSize, stepNum) {
 }
 
 function glavna_sobana_miza(tableDiameter, tableHeight, stepNum, stepHeight, h) {
-    var tableMaterial = createMaterial(scene, "./textures/tableTop.jpg", 'table', 3.0, 3.0, new BABYLON.Color3.Black());
+    var tableMaterial = createMaterial(scene, "./assets/textures/tableTop.jpg", 'table', 3.0, 3.0, new BABYLON.Color3.Black());
 
     var tableBot = createCylinder(scene, tableMaterial, (tableHeight * (2 / 3)), (tableDiameter * (1 / 3)), (tableDiameter * (2 / 3)), 'tableBot');
     tableBot.position.y += (tableHeight * (2 / 3)) / 2 + stepNum * stepHeight;
