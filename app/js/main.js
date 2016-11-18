@@ -103,6 +103,8 @@ function initScene() {
      **/
     stranski_hodnik_in_klancina_tla_in_strop(groundMaterial);
 
+    var hero = new Hero(scene);
+
 }
     /**
      * GLAVNA SOBANA
