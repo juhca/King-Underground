@@ -103,8 +103,9 @@ function initScene() {
      **/
     stranski_hodnik_in_klancina_tla_in_strop(groundMaterial);
 
-    var hero = new Hero(scene);
-
+  //  var hero = new Hero(scene);
+    var bakle = preberi_bakle(roomLength);
+   // heightmap();
 }
     /**
      * GLAVNA SOBANA
@@ -131,8 +132,8 @@ function glavna_sobana_zid(roomLength, wallHeight, wallWidth, octagonE) {
         /**
          * KLANCINA
          **/
-    var wall12 = clone_and_properties(wall, 'wall12', -(2*roomLength - wallWidth - 11.0), 6, 0.01, (Math.PI/6), (Math.PI/2), 0, 1, 1, 1);
-    var wall13 = clone_and_properties(wall, 'wall13', -(2*roomLength - wallWidth - 11.0), 6, -4.99, (Math.PI/6), (Math.PI/2), 0, 1, 1, 1);
+    var wall12 = clone_and_properties(wall, 'wall12', -(2*roomLength - wallWidth - 11.0), 0, 0.01, 0, (Math.PI/2), 0, 1, 1, 1);
+    var wall13 = clone_and_properties(wall, 'wall13', -(2*roomLength - wallWidth - 11.0), 0, -4.99, 0, (Math.PI/2), 0, 1, 1, 1);
 }
 
 function glavna_sobana_kupola(roomLength, wallHeight, wallWidth) {
@@ -221,8 +222,49 @@ function stranski_hodnik_in_klancina_tla_in_strop(groundMaterial) {
     ground2 = properties(ground2, -45, 0, -2.5, 0, (Math.PI/2), 0, 1, 0.01, 1);
         // tla za klancino
     var ground3 = createBox(scene, groundMaterial, 40, 5, 20,'ground3');
-    ground3 = properties(ground3, -70, 9.4, -2.5, (Math.PI/6), (Math.PI/2), 0, 1, 0.01, 1);
+    ground3 = properties(ground3, -69, 0, -2.5, 0, (Math.PI/2), 0, 1, 0.01, 1);
 
     var strop1 = clone_and_properties(ground2, 'strop1', 6.5, 5, 0, 0, 0, (Math.PI), 0.5, 0.01, 0.7);
-    var strop2 = clone_and_properties(ground3, 'strop1', 5.43, 2.6, 0, 0, 0, (Math.PI), 0.5, 0.01, 0.7);
+    var strop2 = clone_and_properties(ground3, 'strop2', 5.43, 5, 0, 0, 0, (Math.PI), 0.5, 0.01, 0.7);
+}
+
+function preberi_bakle(roomLength) {
+        // prva bakla
+    postavi_bakle((roomLength/2 - 0.44), (1.5), 0, 0, 0, 0);
+    postavi_bakle(0, (1.5), (roomLength/2 - 1.25), 0, -(Math.PI/2), 0);
+    postavi_bakle(0, (1.5), -(roomLength/2 - 1.65), 0, (Math.PI/2), 0);
+
+}
+
+function postavi_bakle(pos_x, pos_y, pos_z, rot_x, rot_y, rot_z) {
+    BABYLON.SceneLoader.ImportMesh('', 'assets/other/Torch/','Torch.babylon', scene, function (newMeshes) {
+        // prva bakla
+        for (var i=0; i < newMeshes.length; i++)
+        {
+            // za prvo baklo
+            newMeshes[i].scaling.x = 0.2;
+            newMeshes[i].scaling.y = 0.2;
+            newMeshes[i].scaling.z = 0.2;
+            newMeshes[i].position.x += pos_x;
+            newMeshes[i].position.y += pos_y;
+            newMeshes[i].position.z += pos_z;
+            newMeshes[i].rotation.x += rot_x;
+            newMeshes[i].rotation.y += rot_y;
+            newMeshes[i].rotation.z += rot_z;
+        }
+    });
+}
+
+function heightmap() {
+
+    var ground4 = BABYLON.Mesh.CreateGroundFromHeightMap("ground4", "assets/other/heightMap.png", 100, 100, 100, 1, 50, scene, false);
+    var groundMaterial = new BABYLON.StandardMaterial("ground4", scene);
+    groundMaterial.diffuseTexture = new BABYLON.Texture("assets/textures/grass.jpg", scene);
+
+    groundMaterial.diffuseTexture.uScale = 20;
+    groundMaterial.diffuseTexture.vScale = 20;
+    groundMaterial.specularColor = new BABYLON.Color3(0, 0, 0);
+    ground4.position.x += -100;
+    ground4.position.y -= 5.5;
+    ground4.material = groundMaterial;
 }
