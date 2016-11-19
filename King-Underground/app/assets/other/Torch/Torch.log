@@ -1,0 +1,38 @@
+	Exporter version: 4.6.1, Blender version: 2.78 (sub 0)
+========= Conversion from Blender to Babylon.js =========
+	Scene settings used:
+		selected layers only:  false
+		flat shading entire scene:  false
+		inline textures:  false
+		texture directory:  C:\Users\tomas\Dropbox\King Underground\King-Underground\King-Underground\King-Underground\app\assets\other\Torch\
+	Python World class constructor completed
+	processing begun of mesh:  Mashal MMM:Group63307
+		processing begun of Standard material:  VRayMtl3SG
+		num positions      :  56852
+		num normals        :  56852
+		num uvs            :  113704
+		num uvs2           :  0
+		num colors         :  0
+		num indices        :  302676
+	processing begun of mesh:  chorch:Group1799 Mashal
+		processing begun of Standard material:  VRayMtl1SG
+		num positions      :  36069
+		num normals        :  36069
+		num uvs            :  72138
+		num uvs2           :  0
+		num colors         :  0
+		num indices        :  193206
+	processing begun of mesh:  lsd:Group15825
+		processing begun of Standard material:  VRayMtl4SG
+		num positions      :  30718
+		num normals        :  30718
+		num uvs            :  61436
+		num uvs2           :  0
+		num colors         :  0
+		num indices        :  161526
+	processing begun of camera (FreeCamera):  Camera
+	processing begun of light (POINT):  Lamp
+========= Writing of scene file started =========
+========= Writing of scene file completed =========
+========= end of processing =========
+elapsed time:  0 min, 21.5918 secs
