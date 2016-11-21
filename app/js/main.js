@@ -48,7 +48,7 @@ function initScene() {
 
     /**
      * FOG
-     **/
+    **/
     //scene.fogMode = BABYLON.Scene.FOGMODE_EXP;
     //scene.fogDensity = 0.1;
 
@@ -103,9 +103,9 @@ function initScene() {
      **/
     stranski_hodnik_in_klancina_tla_in_strop(groundMaterial);
 
-  //  var hero = new Hero(scene);
-    var bakle = preberi_bakle(roomLength);
-   // heightmap();
+    var hero = new Hero(scene);
+    postavi_bakle(roomLength);
+    heightmap();
 }
     /**
      * GLAVNA SOBANA
@@ -228,43 +228,26 @@ function stranski_hodnik_in_klancina_tla_in_strop(groundMaterial) {
     var strop2 = clone_and_properties(ground3, 'strop2', 5.43, 5, 0, 0, 0, (Math.PI), 0.5, 0.01, 0.7);
 }
 
-function preberi_bakle(roomLength) {
-        // prva bakla
-    postavi_bakle((roomLength/2 - 0.44), (1.5), 0, 0, 0, 0);
-    postavi_bakle(0, (1.5), (roomLength/2 - 1.25), 0, -(Math.PI/2), 0);
-    postavi_bakle(0, (1.5), -(roomLength/2 - 1.65), 0, (Math.PI/2), 0);
-
-}
-
-function postavi_bakle(pos_x, pos_y, pos_z, rot_x, rot_y, rot_z) {
+function postavi_bakle(roomLength) {
+    var bakla;
     BABYLON.SceneLoader.ImportMesh('', 'assets/other/Torch/','Torch.babylon', scene, function (newMeshes) {
-        // prva bakla
-        for (var i=0; i < newMeshes.length; i++)
-        {
-            // za prvo baklo
-            newMeshes[i].scaling.x = 0.2;
-            newMeshes[i].scaling.y = 0.2;
-            newMeshes[i].scaling.z = 0.2;
-            newMeshes[i].position.x += pos_x;
-            newMeshes[i].position.y += pos_y;
-            newMeshes[i].position.z += pos_z;
-            newMeshes[i].rotation.x += rot_x;
-            newMeshes[i].rotation.y += rot_y;
-            newMeshes[i].rotation.z += rot_z;
-        }
+            // prva bakla
+        bakla = newMeshes[0];
+        var baklaMaterial =createMaterial(scene, 'assets/other/Torch/VRayMtl1SG_Base_Color copy.jpg', 'baklaMaterial', 1.0, 1.0, new BABYLON.Color3(0, 0, 0));
+        bakla.material = baklaMaterial;
+
+        bakla = properties(bakla, (roomLength/2 - 1.46), 3.9, 0, 0, 0, 0, 0.2, 0.2, 0.2);
+        var bakla2 = clone_and_properties(bakla, 'bakla2', -(roomLength/2 - 2.45), 0, (roomLength/2 - 1.44), 0, -(Math.PI/2), 0, 0.2, 0.2, 0.2);
+        var bakla3 = clone_and_properties(bakla, 'bakla3', -(roomLength/2 - 5), 0, -(roomLength/2 - 1.44), 0, (Math.PI/2), 0, 0.2, 0.2, 0.2);
     });
 }
 
 function heightmap() {
 
     var ground4 = BABYLON.Mesh.CreateGroundFromHeightMap("ground4", "assets/other/heightMap.png", 100, 100, 100, 1, 50, scene, false);
-    var groundMaterial = new BABYLON.StandardMaterial("ground4", scene);
-    groundMaterial.diffuseTexture = new BABYLON.Texture("assets/textures/grass.jpg", scene);
-
-    groundMaterial.diffuseTexture.uScale = 20;
-    groundMaterial.diffuseTexture.vScale = 20;
-    groundMaterial.specularColor = new BABYLON.Color3(0, 0, 0);
+    var groundMaterial = createMaterial(scene, "assets/textures/grass.jpg", 'ground4', 20, 20, new BABYLON.Color3(0, 0, 0));
     ground4.position.x += -100;
     ground4.position.y -= 5.5;
     ground4.material = groundMaterial;
+    ground4.checkCollisions = true;
 }
