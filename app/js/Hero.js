@@ -39,7 +39,7 @@ Hero = function(scene) {
             _this.mesh.rotationQuaternion.toRotationMatrix(rot);
             var translation = new BABYLON.Vector3(_this.translation.x, 0, _this.translation.z);
             translation = BABYLON.Vector3.TransformCoordinates(translation, rot);
-            translation.y = -9.81;
+            translation.y = -0.5;
             _this.mesh.moveWithCollisions(translation);
         }
 
@@ -60,6 +60,8 @@ Hero.prototype = {
             _this.mesh.scaling.y *= 0.12;
 
             _this.mesh.position.y += 5;
+
+            _this.mesh.name = 'hero';
 
             /* COLLISION */
             _this.mesh.checkCollisions = true;
