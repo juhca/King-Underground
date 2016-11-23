@@ -8,7 +8,8 @@ Hero = function(scene) {
     this.defaultVelocity = 8;
     this.translation = {
         'x': 0,
-        'z': 0
+        'z': 0,
+        'jump': 0
     };
     this.animation = {
         'walk': null,
@@ -39,7 +40,8 @@ Hero = function(scene) {
             _this.mesh.rotationQuaternion.toRotationMatrix(rot);
             var translation = new BABYLON.Vector3(_this.translation.x, 0, _this.translation.z);
             translation = BABYLON.Vector3.TransformCoordinates(translation, rot);
-            translation.y = -10;
+            translation.y = _this.translation.jump ? _this.translation.jump : -10;
+            _this.translation.jump = 0;
             _this.mesh.getPhysicsImpostor().setLinearVelocity(translation);
         }
 
@@ -247,6 +249,9 @@ Hero.prototype = {
                 this.pressedKeys['d'] = true;
                 this.translation.x = -this.defaultVelocity;
                 this.animateRun(this);
+                break;
+            case 32: // Space
+                this.translation.jump = 100;
                 break;
         }
     },

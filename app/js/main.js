@@ -107,6 +107,15 @@ function initScene() {
     var hero = new Hero(scene);
     var goblin1 = new Goblin(scene, new BABYLON.Vector3(-88, 0.5, -9));
 
+    /* test movable box */
+    var d = BABYLON.Mesh.CreateBox("s", 3, scene);
+    d.position = new BABYLON.Vector3(-20, 1, -3);
+    d.setPhysicsState({impostor:BABYLON.PhysicsEngine.BoxImpostor, move:true, mass:5, friction:0.5, restitution:0.1});
+    var boxMaterial = new BABYLON.StandardMaterial("boxmat", scene);
+    boxMaterial.diffuseColor = BABYLON.Color3.FromInts(75, 71, 89);
+    boxMaterial.specularColor = BABYLON.Color3.Black();
+    d.material = boxMaterial;
+
     postavi_bakle(roomLength);
     heightmap();
 }
