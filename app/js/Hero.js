@@ -5,12 +5,14 @@ Hero = function(scene) {
     this.skeleton = null;
     this.body = null;
     this.weapon = null;
+
     this.defaultVelocity = 8;
     this.translation = {
         'x': 0,
         'z': 0,
         'jump': 0
     };
+
     this.animation = {
         'walk': null,
         'run': null,
@@ -18,6 +20,8 @@ Hero = function(scene) {
         'attack': null,
         'weaponAttack': null
     };
+    this.attackList = [this.animateSword1, this.animateSword2, this.animateSword3];
+
     this.pressedKeys = {
         'w': false, 'a': false, 's': false, 'd': false
     };
@@ -188,8 +192,52 @@ Hero.prototype = {
                 _this.animation.weaponAttack = null;
             });
         }
+    },
 
-        _this.animationFramelock = 10;
+    animateSword2: function(_this) {
+        if (_this.animation.attack) {
+            return;
+        }
+
+        _this.stopWeaponAnimation();
+
+        _this.animation.attack = _this.scene.beginAnimation(_this.skeleton, 325, 365, false, 2.5, function() {
+            _this.animation.attack = null;
+            if (_this.isWASD()) {
+                _this.animateRun(_this, true);
+            } else {
+                _this.animateIdle(_this);
+            }
+        });
+
+        if (_this.animation.attack) {
+            _this.animation.weaponAttack = _this.scene.beginDirectAnimation(_this.weapon.mesh, [_this.weapon.animation.attack2], 0, 40, false, 2.5, function () {
+                _this.animation.weaponAttack = null;
+            });
+        }
+    },
+
+    animateSword3: function(_this) {
+        if (_this.animation.attack) {
+            return;
+        }
+
+        _this.stopWeaponAnimation();
+
+        _this.animation.attack = _this.scene.beginAnimation(_this.skeleton, 630, 665, false, 2.5, function() {
+            _this.animation.attack = null;
+            if (_this.isWASD()) {
+                _this.animateRun(_this, true);
+            } else {
+                _this.animateIdle(_this);
+            }
+        });
+
+        if (_this.animation.attack) {
+            _this.animation.weaponAttack = _this.scene.beginDirectAnimation(_this.weapon.mesh, [_this.weapon.animation.attack2], 0, 35, false, 2.5, function () {
+                _this.animation.weaponAttack = null;
+            });
+        }
     },
 
     stopWeaponAnimation: function() {
@@ -215,7 +263,7 @@ Hero.prototype = {
     handleMousedown: function(evt) {
         if (evt.which === 1) {
             this.rotateCamera();
-            this.animateSword1(this);
+            this.attackList[Math.floor(Math.random() * this.attackList.length)](this);
         }
     },
 

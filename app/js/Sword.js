@@ -6,7 +6,8 @@ Sword = function(scene, afterload) {
 
     this.animation = {
         'run': null,
-        'attack1': null
+        'attack1': null,
+        'attack2': null
     };
 
     BABYLON.SceneLoader.ImportMesh('', 'assets/weapons/sword/', 'sword.babylon', this.scene, function(meshes, particleSystems, skeletons) {
@@ -26,6 +27,7 @@ Sword = function(scene, afterload) {
 
         _this.animation.run = initRun();
         _this.animation.attack1 = initAttack1();
+        _this.animation.attack2 = initAttack2();
 
         afterload();
     });
@@ -39,6 +41,21 @@ Sword = function(scene, afterload) {
             {frame: 0, value: initialQuat},
             {frame: 5, value: initialQuat.multiply(BABYLON.Quaternion.RotationYawPitchRoll(Math.PI, 0, Math.PI / 2))},
             {frame: 20, value: initialQuat}
+        ];
+
+        animation.setKeys(keys);
+
+        return animation;
+    }
+
+    function initAttack2() {
+        var initialQuat = _this.mesh.rotationQuaternion.clone();
+        var animation = new BABYLON.Animation("sword-attack2", "rotationQuaternion", 40, BABYLON.Animation.ANIMATIONTYPE_QUATERNION, BABYLON.Animation.ANIMATIONLOOPMODE_CYCLE);
+
+        var keys = [
+            {frame: 0, value: initialQuat},
+            {frame: 30, value: initialQuat.multiply(BABYLON.Quaternion.RotationYawPitchRoll(Math.PI / 2, 0, 0))},
+            {frame: 40, value: initialQuat}
         ];
 
         animation.setKeys(keys);
