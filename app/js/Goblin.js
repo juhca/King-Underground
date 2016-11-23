@@ -1,4 +1,4 @@
-Goblin = function(scene, position) {
+Goblin = function(scene, index, position) {
     this.scene = scene;
     this.canvas = this.scene.getEngine().getRenderingCanvas();
     this.mesh = null;
@@ -19,6 +19,9 @@ Goblin = function(scene, position) {
     this.targetName = 'hero';
     this.target = null;
 
+    this.hitPoints = 3;
+    this.isDead = false;
+
     this.triggers = {
         isClose: false, // is enemy close
         isCombat: false
@@ -33,11 +36,14 @@ Goblin = function(scene, position) {
     var _this = this;
 
 
-    _this._init(position);
+    _this._init(index, position);
 
     _this.scene.registerBeforeRender(beforeRender);
 
     function beforeRender() {
+        if (_this.isDead) {
+            return;
+        }
         if (_this.isMoving) {
             /* rotate to target */
             var targetDir = _this.target.position.subtract(_this.mesh.position);
@@ -59,11 +65,12 @@ Goblin = function(scene, position) {
 };
 
 Goblin.prototype = {
-    _init: function(position) {
+    _init: function(index, position) {
         var _this = this;
 
         BABYLON.SceneLoader.ImportMesh('', 'assets/characters/goblin/', 'gobo6a.babylon', this.scene, function(meshes, particleSystems, skeletons) {
             _this.mesh = meshes[0];
+            _this.mesh.name = 'goblin' + index;
             _this.skeleton = skeletons[0];
 
             _this.mesh.scaling.x *= 0.12;
@@ -74,16 +81,16 @@ Goblin.prototype = {
                 _this.mesh.position = position;
             }
 
-            /* physics */
-            _this.body = _this.mesh.setPhysicsState({impostor:BABYLON.PhysicsEngine.SphereImpostor, move:true, mass:50, restitution: 0, friction: 0});
-            _this.body.linearDamping = 0.99;
+            _this.animateIdle();
 
             _this.scene.executeWhenReady(function() {
+                /* physics */
+                _this.body = _this.mesh.setPhysicsState({impostor:BABYLON.PhysicsEngine.SphereImpostor, move:true, mass:50, restitution: 0, friction: 0});
+                _this.body.linearDamping = 0.99;
+
                 _this.target = _this.scene.getMeshByName(_this.targetName);
                 _this._initTriggers();
             });
-
-            _this.animateIdle();
 
             /* Animation frames
              * Run:  0 - 43
@@ -119,6 +126,9 @@ Goblin.prototype = {
             trigger: BABYLON.ActionManager.OnIntersectionEnterTrigger,
             parameter: this.target
         }, function() {
+            if (_this.isDead) {
+                return;
+            }
             _this.isMoving = true;
             _this.animateRun();
         }));
@@ -127,6 +137,9 @@ Goblin.prototype = {
             trigger: BABYLON.ActionManager.OnIntersectionExitTrigger,
             parameter: this.target
         }, function() {
+            if (_this.isDead) {
+                return;
+            }
             _this.isMoving = false;
             _this.animateIdle();
         }));
@@ -144,17 +157,46 @@ Goblin.prototype = {
             trigger: BABYLON.ActionManager.OnIntersectionEnterTrigger,
             parameter: this.target
         }, function() {
+            if (_this.isDead) {
+                return;
+            }
             _this.isMoving = false;
             _this.triggers.isCombat = true;
+            _this.target.getHero().appendEnemy(_this);
         }));
         /* exit */
         this.sphereAttack.actionManager.registerAction(new BABYLON.ExecuteCodeAction({
             trigger: BABYLON.ActionManager.OnIntersectionExitTrigger,
             parameter: this.target
         }, function() {
+            if (_this.isDead) {
+                return;
+            }
             _this.isMoving = true;
             _this.animateRun();
+            _this.target.getHero().removeEnemy(_this.mesh.name);
         }));
+    },
+
+    onHit: function() {
+        var _this = this;
+
+        _this.hitPoints--;
+
+        if (_this.hitPoints < 1) {
+            _this.target.getHero().removeEnemy(_this.mesh.name);
+            _this.isMoving = false;
+            _this.triggers.isCombat = false;
+
+            _this.isDead = true;
+
+            _this.animateDie(function() {
+                setTimeout(function() {
+                    _this.mesh.dispose();
+                    _this.mesh = null;
+                }, 2000);
+            });
+        }
     },
 
     combat: function() {
@@ -164,11 +206,17 @@ Goblin.prototype = {
     },
 
     animateRun: function() {
+        if (this.isDead) {
+            return;
+        }
         this.scene.beginAnimation(this.skeleton, 0, 43, true, 2.5);
     },
 
     animateKick: function(_this) {
         _this.animation.combat = _this.scene.beginAnimation(_this.skeleton, 44, 54, false, 1.0, function() {
+            if (_this.isDead) {
+                return;
+            }
             _this.animateRun();
             setTimeout(function() {
                 _this.animation.combat = null;
@@ -178,6 +226,9 @@ Goblin.prototype = {
 
     animatePunch3: function(_this) {
         _this.animation.combat = _this.scene.beginAnimation(_this.skeleton, 161, 205, false, 2.0, function() {
+            if (_this.isDead) {
+                return;
+            }
             _this.animateRun();
             setTimeout(function() {
                 _this.animation.combat = null;
@@ -189,7 +240,7 @@ Goblin.prototype = {
         this.scene.beginAnimation(this.skeleton, 303, 372, true, 0.8);
     },
 
-    animateDie: function() {
-        this.scene.beginAnimation(this.skeleton, 373, 421, false, 1.0);
+    animateDie: function(onEnd) {
+        this.scene.beginAnimation(this.skeleton, 373, 421, false, 1.0, onEnd);
     }
 };

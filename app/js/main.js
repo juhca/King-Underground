@@ -108,7 +108,7 @@ function initScene() {
     stranski_hodnik_in_klancina_tla_in_strop(groundMaterial);
 
     var hero = new Hero(scene);
-    var goblin1 = new Goblin(scene, new BABYLON.Vector3(-88, 0.5, -9));
+    var goblin1 = new Goblin(scene, 1, new BABYLON.Vector3(-88, 0.5, -9));
 
     /* test movable box */
     var d = BABYLON.Mesh.CreateBox("s", 3, scene);
