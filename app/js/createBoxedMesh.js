@@ -18,7 +18,7 @@ function createBox(scene, groundMaterial, boxlength, boxheight, boxwidth,ime) {
         width: boxwidth
     }, scene);
     ground.material = groundMaterial;
-    ground.checkCollisions = true;
+    //ground.setPhysicsState({ impostor: BABYLON.PhysicsEngine.BoxImpostor, move:false});
     return ground;
 }
 
@@ -29,7 +29,7 @@ function createWall(scene, wallMaterial, wallHeight, wallWidth, roomLength, octa
         depth: roomLength - 2 * octagonE
     }, scene);
     wall.material = wallMaterial;
-    wall.checkCollisions = true;
+    wall.setPhysicsState({ impostor: BABYLON.PhysicsEngine.BoxImpostor, move:false});
     return wall;
 }
 
@@ -49,5 +49,6 @@ function properties(obj, pos_x, pos_y, pos_z, rot_x, rot_y, rot_z, scal_x, scal_
     obj.scaling.x = scal_x;
     obj.scaling.y = scal_y;
     obj.scaling.z = scal_z;
+    obj.setPhysicsState({ impostor: BABYLON.PhysicsEngine.BoxImpostor, move:false});
     return obj;
 }

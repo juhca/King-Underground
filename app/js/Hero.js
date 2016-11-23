@@ -5,7 +5,7 @@ Hero = function(scene) {
     this.skeleton = null;
     this.body = null;
     this.weapon = null;
-    this.defaultVelocity = 0.16;
+    this.defaultVelocity = 8;
     this.translation = {
         'x': 0,
         'z': 0
@@ -39,8 +39,8 @@ Hero = function(scene) {
             _this.mesh.rotationQuaternion.toRotationMatrix(rot);
             var translation = new BABYLON.Vector3(_this.translation.x, 0, _this.translation.z);
             translation = BABYLON.Vector3.TransformCoordinates(translation, rot);
-            translation.y = -0.5;
-            _this.mesh.moveWithCollisions(translation);
+            translation.y = -10;
+            _this.mesh.getPhysicsImpostor().setLinearVelocity(translation);
         }
 
         if (!_this.animation.run && _this.animation.weaponRun && _this.animation.weaponRun.animationStarted) {
@@ -59,16 +59,17 @@ Hero.prototype = {
             _this.mesh.scaling.z *= 0.12;
             _this.mesh.scaling.y *= 0.12;
 
-            _this.mesh.position.y += 5;
+            _this.mesh.position.y += 2;
+
+            /* physics */
+            _this.body = _this.mesh.setPhysicsState({impostor:BABYLON.PhysicsEngine.SphereImpostor, move:true, mass:80, restitution: 0, friction: 0});
+            _this.body.linearDamping = 0.99;
+            _this.mesh.registerAfterWorldMatrixUpdate(function() {
+                _this.mesh.rotationQuaternion.x = 0;
+                _this.mesh.rotationQuaternion.z = 0;
+            });
 
             _this.mesh.name = 'hero';
-
-            /* COLLISION */
-            _this.mesh.checkCollisions = true;
-            _this.mesh.ellipsoid = new BABYLON.Vector3(0.5, 1, 0.5);
-            _this.mesh.ellipsoidOffset = new BABYLON.Vector3(0, 2, 0);
-            _this.mesh.applyGravity = true;
-            //_this.body = _this.mesh.setPhysicsState({impostor:BABYLON.PhysicsEngine.SphereImpostor, move:true, mass:1});
 
             _this.skeleton = skeletons[0];
 
@@ -76,9 +77,6 @@ Hero.prototype = {
             _this._initSword();
 
             _this.animateIdle(_this);
-
-            //_this.mesh.showBoundingBox = true;
-            //console.log(_this.mesh.getBoundingInfo());
 
             /* Animation frames:
              * Walk: 1 - 29

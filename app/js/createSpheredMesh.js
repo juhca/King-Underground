@@ -20,6 +20,6 @@ function createCylinder(scene, pillarMaterial, pillarHeight, diameterTop, diamet
         diameterBottom: diameterBotton
     }, scene);
     pillar.material = pillarMaterial;
-    pillar.checkCollisions = true;
+    pillar.setPhysicsState({ impostor: BABYLON.PhysicsEngine.CylinderImpostor, move:false});
     return pillar;
 }

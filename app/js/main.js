@@ -23,13 +23,14 @@ function onload() {
 
 function initScene() {
     scene = new BABYLON.Scene(engine);
+
+    /* set default camera */
     var camera = new BABYLON.FreeCamera('camera', new BABYLON.Vector3(10, 20, 20), scene);
     camera.setTarget(BABYLON.Vector3.Zero());
     camera.attachControl(canvas);
 
-    scene.collisionsEnabled = true;
-
-    camera.checkCollisions = true;
+    /* physics */
+    scene.enablePhysics(new BABYLON.Vector3(0, -10, 0), new BABYLON.CannonJSPlugin());
 
     // ustvarim luč
     var h = new BABYLON.HemisphericLight('hemi', new BABYLON.Vector3(0, 1, 0), scene);
@@ -251,5 +252,7 @@ function heightmap() {
     ground4.position.x += -100;
     ground4.position.y -= 5.5;
     ground4.material = groundMaterial;
-    ground4.checkCollisions = true;
+    scene.executeWhenReady(function() {
+        ground4.setPhysicsState({ impostor: BABYLON.PhysicsEngine.HeightmapImpostor, move: false, mass: 0});
+    });
 }
