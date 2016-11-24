@@ -51,6 +51,20 @@ ComplexHall.prototype.create = function () {
     }
     
     function strop() {
+        // kreiraj material za tla
+        var groundMaterial = createMaterial(this.scene, 'assets/textures/rock1.jpg', 'tla', 2.0, 4.0, new BABYLON.Color3.Black());
+        var ground = createBox(this.scene, groundMaterial, 5, 1, 40, 'ground');
+        ground = properties(ground, -220, 7.0, -1, 0, 0, 0, 1, 1, 1);
+
+        var prviKlanec = clone_and_properties(ground, 'prviKlanec', -17.5, 5.75, 20, 0, (Math.PI/2), -(Math.PI/10), 1, 1, 1);
+        var ravno1 = clone_and_properties(ground, 'ravno1', -17.5, 11.89, 58.8, 0, (Math.PI/2), 0, 1, 1, 1);
+        var drugiKlanec = clone_and_properties(ground, 'drugiKlanec', 0.8, 17, 76.3, 0, (Math.PI), -(Math.PI/10), 1, 1, 1);
+        var ravno2 = clone_and_properties(ground, 'ravno2', 39.65, 23.155, 76.3, 0, 0, 0, 1, 1, 1);
+        var tretjiKlanec = clone_and_properties(ground, 'tretjiKlanec', 57.15, 29.35, 97.8, 0, (Math.PI/2), -(Math.PI/10), 1, 1, 1);
+        var ravno3 = clone_and_properties(ground, 'ravno3', 57.15, 35.5, 136.65, 0, (Math.PI/2), 0, 1, 1, 1);
+        var cetrtiKlanec = clone_and_properties(ground, 'cetrtiKlanec', 40, 40.25, 154.2, 0, 0, -(Math.PI/11), 1, 1, 1);
+        var ravno4 = clone_and_properties(ground, 'ravno4', 1.15, 46.4, 154.2, 0, 0, 0, 1, 1, 1);
+        var ravno5 = clone_and_properties(ground, 'ravno5', -38.15, 40.0, 154.2, 0, 0, (Math.PI/10), 1, 1, 1);
         
     }
 }

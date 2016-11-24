@@ -36,7 +36,7 @@ function initScene() {
     scene.enablePhysics(new BABYLON.Vector3(0, -10, 0), new BABYLON.CannonJSPlugin());
 
     // ustvarim luč
-    var h = new BABYLON.HemisphericLight('hemi', new BABYLON.Vector3(0, 1, 0), scene);
+    //var h = new BABYLON.HemisphericLight('hemi', new BABYLON.Vector3(0, 1, 0), scene);
     //h.position = new BABYLON.Vector3(0, 5.0, 0);
 
     // prikazem koordinatni sistem
@@ -53,8 +53,8 @@ function initScene() {
     /**
      * FOG
     **/
-    //scene.fogMode = BABYLON.Scene.FOGMODE_EXP;
-    //scene.fogDensity = 0.1;
+    scene.fogMode = BABYLON.Scene.FOGMODE_EXP;
+    scene.fogDensity = 0.1;
 
     /*
      * Background music
@@ -68,7 +68,7 @@ function initScene() {
 
     new MainEnvironment(scene);
 
-    //var hero = new Hero(scene);
+    var hero = new Hero(scene);
     var goblin1 = new Goblin(scene, 1, new BABYLON.Vector3(-128, 0.5, 0));
 
     /* test movable box */
