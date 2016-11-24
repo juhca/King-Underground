@@ -242,7 +242,7 @@ Goblin.prototype = {
                 setTimeout(function() {
                     _this.mesh.dispose();
                     _this.mesh = null;
-                }, 20);
+                }, 10);
             });
         }
     },

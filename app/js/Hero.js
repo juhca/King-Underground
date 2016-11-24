@@ -129,7 +129,12 @@ Hero.prototype = {
     },
 
     _initCamera: function() {
-        var camera = new BABYLON.ArcRotateCamera('herocam', Math.PI / 2, Math.PI / 4, 18, this.mesh, this.scene);
+        var followMesh = BABYLON.MeshBuilder.CreateBox("s", {height: 1, width: 1, depth: 1}, this.scene);
+        followMesh.position.y += 15;
+        followMesh.isVisible = false;
+        followMesh.parent = this.mesh;
+
+        var camera = new BABYLON.ArcRotateCamera('herocam', Math.PI / 2, Math.PI / 4, 18, followMesh, this.scene);
         camera.attachControl(this.canvas);
 
         this.scene.activeCamera = camera;
