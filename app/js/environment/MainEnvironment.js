@@ -6,5 +6,6 @@ MainEnvironment = function (scene) {
     new SideHallAndChamber(scene).create();
     /** ============ ZAVITI HODNIKI  ============= **/
     new ComplexHall(scene).create();
-    // zgradi zadnjo dvorano
+    /** ============ ZADNJA DVORANA  ============= **/
+    new LastChamber(scene).create();
 };
