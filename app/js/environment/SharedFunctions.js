@@ -11,19 +11,6 @@ function lucke(name, position, direction, angle, exponent, intensity, diffuse, s
     luc.setEnabled(1);
     return luc;
 }
-function lucke2(name, position, direction, angle, exponent, intensity, diffuse, specular) {
-    var luc = new BABYLON.DirectionalLight("Spot0", new BABYLON.Vector3.Zero(), scene);
-    luc.name = name;
-    luc.position = position;
-    luc.direction = direction;
-    luc.angle = angle;
-    luc.exponent = exponent;
-    luc.intensity = intensity;
-    luc.diffuse = diffuse;
-    luc.specular = specular;
-    luc.setEnabled(1);
-    return luc;
-}
 
 function partikli(ime, st_partiklov, lokacija_texture, objekt) {
     var particleSystem = new BABYLON.ParticleSystem(ime, st_partiklov, scene);

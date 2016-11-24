@@ -12,10 +12,10 @@ MainChamber.prototype.create = function () {
         // edge of regular triangle at edges of octagon
     var octagonE = 10;
         // ustvarim material za tla
-    var groundMaterial = createMaterial(scene, './assets/textures/floor.jpg', 'ground', 5.0, 5.0, new BABYLON.Color3.Black());
+    var groundMaterial = createMaterial(this.scene, './assets/textures/floor.jpg', 'ground', 5.0, 5.0, new BABYLON.Color3.Black());
     groundMaterial.maxsimultaneousLights = 6;
     // ustvarim tla
-    var ground = createBox(scene, groundMaterial, roomLength, 1, roomLength, 'ground');
+    var ground = createBox(this.scene, groundMaterial, roomLength, 1, roomLength, 'ground');
     ground = properties(ground, 0, 0, 0, 0, 0, 0, 1, 0.01, 1);
 
     glavna_sobana_zid(roomLength, wallHeight, wallWidth, octagonE);
@@ -40,9 +40,9 @@ MainChamber.prototype.create = function () {
      * GLAVNA SOBANA
      * **/
     function glavna_sobana_zid(roomLength, wallHeight, wallWidth, octagonE) {
-        var wallMaterial = createMaterial(scene, './assets/textures/wall.jpg', 'wall', 1.5, 4.0, new BABYLON.Color3.Black());
+        var wallMaterial = createMaterial(this.scene, './assets/textures/wall.jpg', 'wall', 1.5, 4.0, new BABYLON.Color3.Black());
 
-        var wall = createWall(scene, wallMaterial, wallHeight, wallWidth, roomLength, octagonE, 'wall1');
+        var wall = createWall(this.scene, wallMaterial, wallHeight, wallWidth, roomLength, octagonE, 'wall1');
         wall = properties(wall, roomLength / 2 - wallWidth / 2, wallHeight / 2, 0, 0, 0, 0, 1, 1, 1);
 
         var tab = [['wall2', -(roomLength - wallWidth), 0, -20.5, 0, 0, 0, 1, 1, 1], ['wall3', -(roomLength - wallWidth), 0, 15.5, 0, 0, 0, 1, 1, 1], ['wall4', -(roomLength / 2 - wallWidth / 2), 0, (roomLength / 2 - wallWidth / 2), 0, (Math.PI / 2), 0, 1, 1, 1], ['wall5', -(roomLength / 2 - wallWidth / 2), 0, -(roomLength / 2 - wallWidth / 2), 0, (Math.PI / 2), 0, 1, 1, 1], ['wall6', -(octagonE / 2), 0, (roomLength / 2 - octagonE / 2 - wallWidth / 2), 0, -(Math.PI / 4), 0, 1, 1, 1], ['wall7', -(roomLength - octagonE / 2 - wallWidth), 0, (roomLength / 2 - octagonE / 2 - wallWidth / 2), 0, (Math.PI / 4), 0, 1, 1, 1], ['wall8', -(roomLength - octagonE / 2 - wallWidth), 0, -(roomLength / 2 - octagonE / 2 - wallWidth / 2), 0, -(Math.PI / 4), 0, 1, 1, 1],  ['wall9', -(octagonE / 2), 0, -(roomLength / 2 - octagonE / 2 - wallWidth / 2), 0, +(Math.PI / 4), 0, 1, 1, 1]];
@@ -54,26 +54,26 @@ MainChamber.prototype.create = function () {
     }
 
     function glavna_sobana_kupola(roomLength, wallHeight, wallWidth) {
-        var ceilMaterial = createMaterial(scene, './assets/textures/roof.jpg', 'ground', 1.0, 1.0, new BABYLON.Color3.Black());
+        var ceilMaterial = createMaterial(this.scene, './assets/textures/roof.jpg', 'ground', 1.0, 1.0, new BABYLON.Color3.Black());
         var sphereDiameter = roomLength - 2 * wallWidth;
 
-        var ceilSphere = createSphere(scene, ceilMaterial, sphereDiameter, wallHeight, 'ceilSphere', 0.5, BABYLON.Mesh.BACKSIDE);
+        var ceilSphere = createSphere(this.scene, ceilMaterial, sphereDiameter, wallHeight, 'ceilSphere', 0.5, BABYLON.Mesh.BACKSIDE);
 
-        var ceilPlane = createBox(scene, ceilMaterial, roomLength, 2, roomLength, 'ceilPlane');
+        var ceilPlane = createBox(this.scene, ceilMaterial, roomLength, 2, roomLength, 'ceilPlane');
         ceilPlane = properties(ceilPlane, 0, (wallHeight + 1), 0, 0, 0, 0, 1, 1, 1);
 
         var csCSG = BABYLON.CSG.FromMesh(ceilSphere);
         var cpCSG = BABYLON.CSG.FromMesh(ceilPlane);
-        var ceilSubplane = (cpCSG.subtract(csCSG)).toMesh('ceilSubplane', ceilMaterial, scene, false);
+        var ceilSubplane = (cpCSG.subtract(csCSG)).toMesh('ceilSubplane', ceilMaterial, this.scene, false);
         ceilPlane.dispose();
     }
 
     function glavna_sobana_platforma(stepHeight, stepSize, stepNum) {
-        var platformMaterial = createMaterial(scene, "./assets/textures/floor1.jpg", 'platform', 3.0, 3.0, new BABYLON.Color3.Black());
+        var platformMaterial = createMaterial(this.scene, "./assets/textures/floor1.jpg", 'platform', 3.0, 3.0, new BABYLON.Color3.Black());
         var platform = false;
 
         for (var i = 0; i < stepNum; i++) {
-            var step = createBox(scene, platformMaterial, (stepSize - 4 * i * stepHeight), stepHeight, (stepSize - 4 * i * stepHeight), 'step' + i);
+            var step = createBox(this.scene, platformMaterial, (stepSize - 4 * i * stepHeight), stepHeight, (stepSize - 4 * i * stepHeight), 'step' + i);
             step.position.y += i * stepHeight + stepHeight / 2;
             if (!platform) {
                 platform = BABYLON.CSG.FromMesh(step);
@@ -84,7 +84,7 @@ MainChamber.prototype.create = function () {
         }
 
         if (platform) {
-            platform = platform.toMesh('platform', platformMaterial, scene, false);
+            platform = platform.toMesh('platform', platformMaterial, this.scene, false);
             platform.setPhysicsState({ impostor: BABYLON.PhysicsEngine.BoxImpostor, move:false});
         } else {
             console.error('platform not initiated');
@@ -96,8 +96,8 @@ MainChamber.prototype.create = function () {
         var pillarHeight = 1.2*wallHeight - stepNum * stepHeight;
         var pillarLocation = ((stepSize - 4 * stepNum * stepHeight) / 2) * 7 / 8;
 
-        var pillarMaterial = createMaterial(scene, "./assets/textures/pillar.jpg", 'pillar', 1.5, 2.0, new BABYLON.Color3.Black());
-        var pillar = createCylinder(scene, pillarMaterial, pillarHeight, pillarDiameter, pillarDiameter, 'pillar1');
+        var pillarMaterial = createMaterial(this.scene, "./assets/textures/pillar.jpg", 'pillar', 1.5, 2.0, new BABYLON.Color3.Black());
+        var pillar = createCylinder(this.scene, pillarMaterial, pillarHeight, pillarDiameter, pillarDiameter, 'pillar1');
         pillar = properties(pillar, pillarLocation, (pillarHeight / 2 + stepNum * stepHeight), pillarLocation, 0, 0, 0, 1, 1, 1);
 
         var tab = [['pillar2', -(2 * pillarLocation), 0, 0, 0, 0, 0, 1, 1, 1], ['pillar3', -(2 * pillarLocation), 0, -(2 * pillarLocation), 0, 0, 0, 1, 1, 1], ['pillar4', 0, 0, -(2 * pillarLocation), 0, 0, 0, 1, 1, 1]];
@@ -108,17 +108,17 @@ MainChamber.prototype.create = function () {
     }
 
     function glavna_sobana_miza(tableDiameter, tableHeight, stepNum, stepHeight) {
-        var tableMaterial = createMaterial(scene, "./assets/textures/tableTop.jpg", 'table', 3.0, 3.0, new BABYLON.Color3.Black());
+        var tableMaterial = createMaterial(this.scene, "./assets/textures/tableTop.jpg", 'table', 3.0, 3.0, new BABYLON.Color3.Black());
 
-        var tableBot = createCylinder(scene, tableMaterial, (tableHeight * (2 / 3)), (tableDiameter * (1 / 3)), (tableDiameter * (2 / 3)), 'tableBot');
+        var tableBot = createCylinder(this.scene, tableMaterial, (tableHeight * (2 / 3)), (tableDiameter * (1 / 3)), (tableDiameter * (2 / 3)), 'tableBot');
         tableBot.position.y += (tableHeight * (2 / 3)) / 2 + stepNum * stepHeight;
 
-        var tableTop = createCylinder(scene, tableMaterial, (tableHeight * (1/3)), (tableDiameter), (tableDiameter * (1 / 3)), 'tableTop');
+        var tableTop = createCylinder(this.scene, tableMaterial, (tableHeight * (1/3)), (tableDiameter), (tableDiameter * (1 / 3)), 'tableTop');
         tableTop.position.y = tableBot.position.y + tableHeight * (1 / 3);
     }
 
     function glavna_sobana_obok(groundMaterial, roomLength) {
-        var obok = createBox(scene, groundMaterial, 1.1, 80, 1.1, 'obok');
+        var obok = createBox(this.scene, groundMaterial, 1.1, 80, 1.1, 'obok');
         obok = properties(obok, -(roomLength/2 - 0.55), 0.4, -0.05, 0, 0, 0, 1, 0.01, 1);
 
         // leva stran oboka
@@ -135,14 +135,14 @@ MainChamber.prototype.create = function () {
 
     function postavi_bakle(roomLength) {
         var bakla;
-        BABYLON.SceneLoader.ImportMesh('', 'assets/other/Torch/','Torch.babylon', scene, function (newMeshes) {
+        BABYLON.SceneLoader.ImportMesh('', 'assets/other/Torch/','Torch.babylon', this.scene, function (newMeshes) {
                 // prva bakla
             bakla = newMeshes[0];
-            var baklaMaterial = createMaterial(scene, 'assets/other/Torch/VRayMtl1SG_Base_Color copy.jpg', 'baklaMaterial', 1.0, 1.0, new BABYLON.Color3(0, 0, 0));
+            var baklaMaterial = createMaterial(this.scene, 'assets/other/Torch/VRayMtl1SG_Base_Color copy.jpg', 'baklaMaterial', 1.0, 1.0, new BABYLON.Color3(0, 0, 0));
             bakla.material = baklaMaterial;
 
             bakla = properties(bakla, (roomLength/2 - 1.46), 3.9, 0, 0, 0, 0, 0.2, 0.2, 0.2);
-            var nevidnMesh1 = createBox(scene, "", 2, 2, 2, 'nevidnMesh1');
+            var nevidnMesh1 = createBox(this.scene, "", 2, 2, 2, 'nevidnMesh1');
             nevidnMesh1.position.y += 4;
             nevidnMesh1.position.z += 4;
             nevidnMesh1.position.x -= 2;

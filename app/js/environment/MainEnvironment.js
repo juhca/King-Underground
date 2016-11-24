@@ -2,7 +2,9 @@
 MainEnvironment = function (scene) {
     /** ============ GLAVNA DVORANO  ============= **/
     new MainChamber(scene).create();
-    // zgradi hodnik + 2. dvorano
-    // zgradi klanci
+    /** ========= HODNIK + 2. DVORANA  =========== **/
+    new SideHallAndChamber(scene).create();
+    /** ============ ZAVITI HODNIKI  ============= **/
+    new ComplexHall(scene).create();
     // zgradi zadnjo dvorano
 };

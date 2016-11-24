@@ -8,7 +8,7 @@ function createMaterial(scene, lokacija, ime, uScale, vScale, color) {
     material.specularColor = color;
     material.diffuseTexture.uScale = uScale;
     material.diffuseTexture.vScale = vScale;
-    //material.maxsimultaneousLights = 6;
+    material.maxsimultaneousLights = 6;
     return material;
 }
 
