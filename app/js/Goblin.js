@@ -22,6 +22,8 @@ Goblin = function(scene, index, position) {
 
     this.hitPoints = 3;
     this.isDead = false;
+    this.bloodEmitMesh = 0;
+    this.particleSystem = null;
 
     this.triggers = {
         isClose: false, // is enemy close
@@ -93,6 +95,7 @@ Goblin.prototype = {
                 _this._initTriggers();
 
                 _this.createFrontCollider();
+                _this._initBloodEmit();
             });
 
             /* Animation frames
@@ -182,9 +185,50 @@ Goblin.prototype = {
         }));
     },
 
+    _initBloodEmit: function() {
+        this.bloodEmitMesh = BABYLON.MeshBuilder.CreateBox("s", {height: 1, width: 1, depth: 1}, this.scene);
+        this.bloodEmitMesh.position.y  += 6;
+        this.bloodEmitMesh.position.z -= 1.5;
+        this.bloodEmitMesh.rotation.z += Math.PI / 4;
+        this.bloodEmitMesh.isVisible = false;
+        this.bloodEmitMesh.parent = this.mesh;
+
+        this.particleSystem = new BABYLON.ParticleSystem('pBlood', 2000, scene);
+
+        this.particleSystem.particleTexture = new BABYLON.Texture('assets/textures/blood.jpg', scene);
+        this.particleSystem.emitter = this.bloodEmitMesh;
+
+        this.particleSystem.minSize = 0.05;
+        this.particleSystem.maxSize = 0.1;
+
+        this.particleSystem.emitRate = 1500;
+
+        this.particleSystem.direction1 = new BABYLON.Vector3(5, 0, 5);
+
+        this.particleSystem.minEmitBox = new BABYLON.Vector3(-1.5, 0, 0);
+        this.particleSystem.maxEmitBox = new BABYLON.Vector3(1.5, 0, 0);
+
+        this.particleSystem.minLifeTime = 0.15;
+        this.particleSystem.maxLifeTime = 0.15;
+
+        this.particleSystem.minEmitPower = 10;
+        this.particleSystem.maxEmitPower = 15;
+    },
+
+    emitBlood: function() {
+
+        this.particleSystem.start();
+
+        var _this = this;
+        setTimeout(function() {
+            _this.particleSystem.stop();
+        }, 400);
+    },
+
     onHit: function() {
         var _this = this;
 
+        _this.emitBlood();
         _this.hitPoints--;
 
         if (_this.hitPoints < 1) {
@@ -198,7 +242,7 @@ Goblin.prototype = {
                 setTimeout(function() {
                     _this.mesh.dispose();
                     _this.mesh = null;
-                }, 500);
+                }, 20);
             });
         }
     },
@@ -256,7 +300,7 @@ Goblin.prototype = {
             }, 2000)
         });
 
-        _this.animation.combat.getAnimations()[0].addEvent(new BABYLON.AnimationEvent(190, function() { _this.handleAttack(); }, true));
+        _this.animation.combat.getAnimations()[0].addEvent(new BABYLON.AnimationEvent(180, function() { _this.handleAttack(); }, true));
     },
 
     animateIdle: function() {

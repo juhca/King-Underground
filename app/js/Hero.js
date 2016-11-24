@@ -15,6 +15,8 @@ Hero = function(scene) {
 
     this.hitPoints = 10;
     this.isDead = false;
+    this.bloodEmitMesh = null;
+    this.particleSystem = null;
 
     this.attackRangeMesh = null;
     this.animation = {
@@ -96,6 +98,7 @@ Hero.prototype = {
                 });
 
                 _this.createFrontCollider();
+                _this._initBloodEmit();
             });
 
             /* Animation frames:
@@ -166,9 +169,56 @@ Hero.prototype = {
         });
     },
 
+    _initBloodEmit: function() {
+        this.bloodEmitMesh = BABYLON.MeshBuilder.CreateBox("s", {height: 1, width: 1, depth: 1}, this.scene);
+        this.bloodEmitMesh.position.y  += 12;
+        this.bloodEmitMesh.position.z -= 1.5;
+        this.bloodEmitMesh.rotation.z += Math.PI / 4;
+        this.bloodEmitMesh.isVisible = false;
+        this.bloodEmitMesh.parent = this.mesh;
+
+        this.particleSystem = new BABYLON.ParticleSystem('pBlood', 2000, scene);
+
+        this.particleSystem.particleTexture = new BABYLON.Texture('assets/textures/blood.jpg', scene);
+        this.particleSystem.emitter = this.bloodEmitMesh;
+
+        this.particleSystem.minSize = 0.05;
+        this.particleSystem.maxSize = 0.1;
+
+        this.particleSystem.emitRate = 500;
+
+        this.particleSystem.direction1 = new BABYLON.Vector3(5, 0, 5);
+
+        this.particleSystem.minEmitBox = new BABYLON.Vector3(-1.5, 0, 0);
+        this.particleSystem.maxEmitBox = new BABYLON.Vector3(1.5, 0, 0);
+
+        this.particleSystem.minLifeTime = 0.15;
+        this.particleSystem.maxLifeTime = 0.15;
+
+        this.particleSystem.minEmitPower = 5;
+        this.particleSystem.maxEmitPower = 10;
+    },
+
+    emitBlood: function() {
+
+        this.particleSystem.start();
+
+        /* pushback */
+        this.translation.z = 3;
+
+        var _this = this;
+        setTimeout(function() {
+            _this.translation.z = 0;
+        }, 100);
+        setTimeout(function() {
+            _this.particleSystem.stop();
+        }, 400);
+    },
+
     onHit: function() {
         var _this = this;
 
+        _this.emitBlood();
         _this.hitPoints--;
         console.info('player hitpoints: ', _this.hitPoints);
 
