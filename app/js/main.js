@@ -72,11 +72,8 @@ function initScene() {
         // edge of regular triangle at edges of octagon
     var octagonE = 10;
 
-    /**
-     *  =============
-     *  GLAVNA SOBANA
-     *  =============
-     **/
+    new MainEnvironment(scene);
+    /*
     // ustvarim material za tla
     var groundMaterial = createMaterial(scene, './assets/textures/floor.jpg', 'ground', 5.0, 5.0, new BABYLON.Color3.Black());
         // ustvarim tla
@@ -104,12 +101,13 @@ function initScene() {
      * HODNIK
      * ======
      **/
-    stranski_hodnik_in_klancina_tla_in_strop(groundMaterial);
+//    stranski_hodnik_in_klancina_tla_in_strop(groundMaterial);
 
-   // var hero = new Hero(scene);
-    var goblin1 = new Goblin(scene, new BABYLON.Vector3(-128, 0.5, 0));
+    //var hero = new Hero(scene);
+//    var goblin1 = new Goblin(scene, 1, new BABYLON.Vector3(-128, 0.5, 0));
 
     /* test movable box */
+
     var d = BABYLON.Mesh.CreateBox("s", 3, scene);
     d.position = new BABYLON.Vector3(-20, 1, -3);
     d.setPhysicsState({impostor:BABYLON.PhysicsEngine.BoxImpostor, move:true, mass:5, friction:0.5, restitution:0.1});
@@ -117,9 +115,10 @@ function initScene() {
     boxMaterial.diffuseColor = BABYLON.Color3.FromInts(75, 71, 89);
     boxMaterial.specularColor = BABYLON.Color3.Black();
     d.material = boxMaterial;
-
+/*
     postavi_bakle(roomLength);
     heightmap();
+    */
 }
 
 function initStats() {
@@ -176,9 +175,8 @@ function glavna_sobana_zid(roomLength, wallHeight, wallWidth, octagonE) {
 
     var wallMaterial2 = createMaterial(scene, './assets/textures/wall.jpg', 'wall', 2.5, 16.0, new BABYLON.Color3.Black());
     var wall18 = createWall(scene, wallMaterial2, wallHeight, wallWidth, 100, octagonE, 'wall18');
-    wall18 = properties(wall18, -(2*roomLength - wallWidth + 45.0), 1.25, 46.5, 0, (Math.PI/2), 0, 1.0, 1.5, 1.5);
-    var wall19 = clone_and_properties(wall18,'wall19', 0, 0, -95, 0, 0, 0, 1.0, 1.5, 1.5);
-    var wall20 = clone_and_properties(wall18,'wall20', -50, 0, -50, 0, (Math.PI/2), 0, 1.0, 1.5, 1.5);
+    wall18 = properties(wall18, -(2*roomLength - wallWidth + 45), 1.25, 16.5, 0, (Math.PI/2), 0, 1.0, 1.5, 1.5);
+    var wall19 = clone_and_properties(wall18,'wall19', 0, 0, -35, 0, 0, 0, 1.0, 1.5, 1.5);
 }
 
 function glavna_sobana_kupola(roomLength, wallHeight, wallWidth) {
@@ -258,6 +256,7 @@ function glavna_sobana_obok(groundMaterial, roomLength) {
     var obok4d = clone_and_properties(obok4l, 'obok4l', 0, 0, 4.9, 0, 0, 0, 1, 0.01, 1);
     var obok5d = clone_and_properties(obok5l, 'obok5l', 0, 0, 4.9, 0, 0, 0, 1, 0.01, 1);
 }
+
     /**
      * STRANSKI HODNIK + KLANCINA
      * **/
@@ -381,3 +380,15 @@ function heightmap() {
         ground4.setPhysicsState({ impostor: BABYLON.PhysicsEngine.HeightmapImpostor, move: false, mass: 0});
     });
 }
+
+function se_vec_goblinov(goblin) {
+
+    for(var i = 0; i < 10; i++)
+    {
+        var x = Math.floor(Math.random() * (-10)) + 10;
+        var z = Math.floor(Math.random() * (-10)) + 10;
+
+        var goblin2 = new Goblin(scene, 2+i, new BABYLON.Vector3(-128+2+x, 0.5, 2*z));
+    }
+}
+

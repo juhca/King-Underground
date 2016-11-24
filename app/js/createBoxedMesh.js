@@ -8,6 +8,7 @@ function createMaterial(scene, lokacija, ime, uScale, vScale, color) {
     material.specularColor = color;
     material.diffuseTexture.uScale = uScale;
     material.diffuseTexture.vScale = vScale;
+    //material.maxsimultaneousLights = 6;
     return material;
 }
 
@@ -17,6 +18,7 @@ function createBox(scene, groundMaterial, boxlength, boxheight, boxwidth,ime) {
         height: boxheight,
         width: boxwidth
     }, scene);
+    groundMaterial.maxsimultaneousLights = 6;
     ground.material = groundMaterial;
     //ground.setPhysicsState({ impostor: BABYLON.PhysicsEngine.BoxImpostor, move:false});
     return ground;

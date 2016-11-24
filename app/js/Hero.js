@@ -13,6 +13,7 @@ Hero = function(scene) {
         'jump': 0
     };
 
+    this.attackRangeMesh = null;
     this.animation = {
         'walk': null,
         'run': null,
@@ -21,6 +22,8 @@ Hero = function(scene) {
         'weaponAttack': null
     };
     this.attackList = [this.animateSword1, this.animateSword2, this.animateSword3];
+
+    this.enemiesNearby = {};
 
     this.pressedKeys = {
         'w': false, 'a': false, 's': false, 'd': false
@@ -61,28 +64,36 @@ Hero.prototype = {
         /* Import character model */
         BABYLON.SceneLoader.ImportMesh('', 'assets/characters/hero/', 'km13.babylon', this.scene, function(meshes, particleSystems, skeletons) {
             _this.mesh = meshes[0];
+            _this.mesh.name = 'hero';
+
+            _this.skeleton = skeletons[0];
+
+            _this.mesh.getHero = function() {
+                return _this;
+            };
+
             _this.mesh.scaling.x *= 0.12;
             _this.mesh.scaling.z *= 0.12;
             _this.mesh.scaling.y *= 0.12;
 
             _this.mesh.position.y += 2;
 
-            /* physics */
-            _this.body = _this.mesh.setPhysicsState({impostor:BABYLON.PhysicsEngine.SphereImpostor, move:true, mass:80, restitution: 0, friction: 0});
-            _this.body.linearDamping = 0.99;
-            _this.mesh.registerAfterWorldMatrixUpdate(function() {
-                _this.mesh.rotationQuaternion.x = 0;
-                _this.mesh.rotationQuaternion.z = 0;
-            });
-
-            _this.mesh.name = 'hero';
-
-            _this.skeleton = skeletons[0];
-
             _this._initCamera();
             _this._initSword();
 
             _this.animateIdle(_this);
+
+            _this.scene.executeWhenReady(function() {
+                /* physics */
+                _this.body = _this.mesh.setPhysicsState({impostor:BABYLON.PhysicsEngine.SphereImpostor, move:true, mass:80, restitution: 0, friction: 0});
+                _this.body.linearDamping = 0.99;
+                _this.mesh.registerAfterWorldMatrixUpdate(function() {
+                    _this.mesh.rotationQuaternion.x = 0;
+                    _this.mesh.rotationQuaternion.z = 0;
+                });
+
+                _this.createFrontCollider();
+            });
 
             /* Animation frames:
              * Walk: 1 - 29
@@ -152,6 +163,35 @@ Hero.prototype = {
         });
     },
 
+    createFrontCollider: function() {
+        this.attackRangeMesh = BABYLON.MeshBuilder.CreateBox("s", {height: 16, width: 12, depth: 12}, this.scene);
+        this.attackRangeMesh.position.y += 8;
+        this.attackRangeMesh.position.z -= 6;
+        this.attackRangeMesh.position.x -= 3;
+        this.attackRangeMesh.parent = this.mesh;
+        this.attackRangeMesh.isVisible = false;
+    },
+
+    handleAttack: function() {
+        var _this = this;
+
+        for (var key in _this.enemiesNearby) {
+            if (_this.enemiesNearby.hasOwnProperty(key)) {
+                if (_this.enemiesNearby[key].mesh.intersectsMesh(_this.attackRangeMesh, false)) {
+                    _this.enemiesNearby[key].onHit();
+                }
+            }
+        }
+    },
+
+    appendEnemy: function(entity) {
+        this.enemiesNearby[entity.mesh.name] = entity;
+    },
+
+    removeEnemy: function(name) {
+        delete this.enemiesNearby[name];
+    },
+
     animateIdle: function(_this) {
         _this.scene.beginAnimation(_this.skeleton, 1123, 1124, true, 1);
 
@@ -191,6 +231,7 @@ Hero.prototype = {
             _this.animation.weaponAttack = _this.scene.beginDirectAnimation(_this.weapon.mesh, [_this.weapon.animation.attack1], 0, 20, false, 1.0, function () {
                 _this.animation.weaponAttack = null;
             });
+            _this.animation.weaponAttack.getAnimations()[0].addEvent(new BABYLON.AnimationEvent(5, function() { _this.handleAttack(); }, true));
         }
     },
 
@@ -214,6 +255,7 @@ Hero.prototype = {
             _this.animation.weaponAttack = _this.scene.beginDirectAnimation(_this.weapon.mesh, [_this.weapon.animation.attack2], 0, 40, false, 2.5, function () {
                 _this.animation.weaponAttack = null;
             });
+            _this.animation.weaponAttack.getAnimations()[0].addEvent(new BABYLON.AnimationEvent(15, function() { _this.handleAttack(); }, true));
         }
     },
 
@@ -237,6 +279,7 @@ Hero.prototype = {
             _this.animation.weaponAttack = _this.scene.beginDirectAnimation(_this.weapon.mesh, [_this.weapon.animation.attack2], 0, 35, false, 2.5, function () {
                 _this.animation.weaponAttack = null;
             });
+            _this.animation.weaponAttack.getAnimations()[0].addEvent(new BABYLON.AnimationEvent(15, function() { _this.handleAttack(); }, true));
         }
     },
 
