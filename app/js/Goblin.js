@@ -66,9 +66,9 @@ Goblin.prototype = {
             _this.mesh = meshes[0];
             _this.skeleton = skeletons[0];
 
-            _this.mesh.scaling.x *= 0.12;
-            _this.mesh.scaling.z *= 0.12;
-            _this.mesh.scaling.y *= 0.12;
+            _this.mesh.scaling.x *= 1.12;
+            _this.mesh.scaling.z *= 1.12;
+            _this.mesh.scaling.y *= 1.12;
 
             if (position) {
                 _this.mesh.position = position;
