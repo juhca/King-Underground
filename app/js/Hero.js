@@ -13,6 +13,9 @@ Hero = function(scene) {
         'jump': 0
     };
 
+    this.hitPoints = 10;
+    this.isDead = false;
+
     this.attackRangeMesh = null;
     this.animation = {
         'walk': null,
@@ -161,6 +164,17 @@ Hero.prototype = {
         document.addEventListener('keyup', function(evt) {
             _this.handleKeyup(evt);
         });
+    },
+
+    onHit: function() {
+        var _this = this;
+
+        _this.hitPoints--;
+        console.info('player hitpoints: ', _this.hitPoints);
+
+        if (_this.hitPoints < 1) {
+            _this.isDead = true;
+        }
     },
 
     createFrontCollider: function() {

@@ -13,8 +13,9 @@ Goblin = function(scene, index, position) {
     /* collisions */
     this.aggroRange = 200;
     this.sphereAggro = null; // sphere for enemy detection
-    this.attackRange = 5;
+    this.attackRange = 8;
     this.sphereAttack = null;
+    this.attackRangeMesh = null;
 
     this.targetName = 'hero';
     this.target = null;
@@ -90,6 +91,8 @@ Goblin.prototype = {
 
                 _this.target = _this.scene.getMeshByName(_this.targetName);
                 _this._initTriggers();
+
+                _this.createFrontCollider();
             });
 
             /* Animation frames
@@ -173,6 +176,7 @@ Goblin.prototype = {
                 return;
             }
             _this.isMoving = true;
+            _this.triggers.isCombat = false;
             _this.animateRun();
             _this.target.getHero().removeEnemy(_this.mesh.name);
         }));
@@ -205,6 +209,21 @@ Goblin.prototype = {
         }
     },
 
+    createFrontCollider: function() {
+        this.attackRangeMesh = BABYLON.MeshBuilder.CreateBox("s", {height: 16, width: 8, depth: 12}, this.scene);
+        this.attackRangeMesh.position.y += 8;
+        this.attackRangeMesh.position.z -= 6;
+        this.attackRangeMesh.position.x -= 3;
+        this.attackRangeMesh.isVisible = false;
+        this.attackRangeMesh.parent = this.mesh;
+    },
+
+    handleAttack: function() {
+        if (this.target.intersectsMesh(this.attackRangeMesh, false)) {
+            this.target.getHero().onHit();
+        }
+    },
+
     animateRun: function() {
         if (this.isDead) {
             return;
@@ -213,7 +232,7 @@ Goblin.prototype = {
     },
 
     animateKick: function(_this) {
-        _this.animation.combat = _this.scene.beginAnimation(_this.skeleton, 44, 54, false, 1.0, function() {
+        _this.animation.combat = _this.scene.beginAnimation(_this.skeleton, 44, 54, false, 0.6, function() {
             if (_this.isDead) {
                 return;
             }
@@ -222,10 +241,12 @@ Goblin.prototype = {
                 _this.animation.combat = null;
             }, 2000)
         });
+
+        _this.animation.combat.getAnimations()[0].addEvent(new BABYLON.AnimationEvent(51, function() { _this.handleAttack(); }, true));
     },
 
     animatePunch3: function(_this) {
-        _this.animation.combat = _this.scene.beginAnimation(_this.skeleton, 161, 205, false, 2.0, function() {
+        _this.animation.combat = _this.scene.beginAnimation(_this.skeleton, 161, 205, false, 1.0, function() {
             if (_this.isDead) {
                 return;
             }
@@ -234,6 +255,8 @@ Goblin.prototype = {
                 _this.animation.combat = null;
             }, 2000)
         });
+
+        _this.animation.combat.getAnimations()[0].addEvent(new BABYLON.AnimationEvent(190, function() { _this.handleAttack(); }, true));
     },
 
     animateIdle: function() {
