@@ -160,6 +160,14 @@ MainChamber.prototype.create = function () {
 
             //var baklaLucka3G = lucke("baklaLucka3G", new BABYLON.Vector3(bakla3.position.x, bakla3.position.y, bakla3.position.z), new BABYLON.Vector3(0, 0.25, 0), 10, 10, 5, new BABYLON.Color3(1,1,1), new BABYLON.Color3(1,1,1));
             var baklaLucka3R = lucke("baklaLucka3R", new BABYLON.Vector3(bakla3.position.x, bakla3.position.y, bakla3.position.z), new BABYLON.Vector3(-0.25, -1, 1), 10, 10, 5, new BABYLON.Color3(1,1,1), new BABYLON.Color3(1,1,1));
+
+            var fireEffect = new BABYLON.Sound("FireEffect", "assets/sound-effects/fire.wav", this.scene, function () {
+                console.log("ZDAJ SLEDIS");
+            }, {loop: true, autoplay: true, volume: 0.1});
+            fireEffect.attachToMesh(bakla);
+            fireEffect.clone("drugiFireEffect").attachToMesh(bakla2);
+            fireEffect.clone("tretjiFireEffect").attachToMesh(bakla3);
+
         });
     }
 };
