@@ -67,7 +67,7 @@ Hero.prototype = {
     _init: function() {
         var _this = this;
         /* Import character model */
-        BABYLON.SceneLoader.ImportMesh('', 'assets/characters/hero/', 'km13.babylon', this.scene, function(meshes, particleSystems, skeletons) {
+        BABYLON.SceneLoader.ImportMesh('', 'assets/characters/hero/', 'km14.babylon', this.scene, function(meshes, particleSystems, skeletons) {
             _this.mesh = meshes[0];
             _this.mesh.name = 'hero';
 
@@ -85,6 +85,7 @@ Hero.prototype = {
 
             _this._initCamera();
             _this._initSword();
+            _this._initCrown();
 
             _this.animateIdle(_this);
 
@@ -149,6 +150,26 @@ Hero.prototype = {
             for (var i = 0; i < bones.length; i++) {
                 if (bones[i].id === 'RThumb') { // RightHandFinger1
                     _this.weapon.attach(_this.mesh, bones[i]);
+                }
+            }
+        });
+    },
+
+    _initCrown: function() {
+        var _this = this;
+        BABYLON.SceneLoader.ImportMesh('', 'assets/characters/hero/', 'crown.babylon', this.scene, function(meshes) {
+            var crown = meshes[0];
+            crown.scaling.x *= 6.8;
+            crown.scaling.y *= 7.8;
+            crown.scaling.z *= 8.6;
+            crown.rotation.x += Math.PI - Math.PI * 7 / 100;
+            crown.position.y += 0.6;
+            crown.position.z += 0.06;
+
+            var bones = _this.skeleton.bones;
+            for (var i = 0; i < bones.length; i++) {
+                if (bones[i].id === 'Head') {
+                    crown.attachToBone(bones[i], _this.mesh);
                 }
             }
         });
