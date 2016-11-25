@@ -75,7 +75,6 @@ Goblin.prototype = {
             _this.mesh = meshes[0];
             _this.mesh.name = 'goblin' + index;
             _this.skeleton = skeletons[0];
-
             _this.mesh.scaling.x *= 0.12;
             _this.mesh.scaling.z *= 0.12;
             _this.mesh.scaling.y *= 0.12;

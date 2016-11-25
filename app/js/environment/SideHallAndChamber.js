@@ -56,7 +56,7 @@ SideHallAndChamber.prototype.create = function () {
             step.setPhysicsState({ impostor: BABYLON.PhysicsEngine.BoxImpostor, move:false});
         }
         // luc za zunaj
-        var lucZunaj = lucke("Luc Zunaj", new BABYLON.Vector3(-50,100,0), new BABYLON.Vector3(-1, -1, 0), 40.5, 50, 60, new BABYLON.Color3(1, 1, 1), new BABYLON.Color3(1, 1, 1));
+        //var lucZunaj = lucke("Luc Zunaj", new BABYLON.Vector3(-50,100,0), new BABYLON.Vector3(-1, -1, 0), 40.5, 50, 60, new BABYLON.Color3(1, 1, 1), new BABYLON.Color3(1, 1, 1));
     }
 
     function drugaDvoranaTla() {

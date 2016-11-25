@@ -36,6 +36,7 @@ MainChamber.prototype.create = function () {
     glavna_sobana_miza(tableDiameter, tableHeight, stepNum, stepHeight);
     glavna_sobana_obok(groundMaterial, roomLength);
     postavi_bakle(roomLength, ground);
+    vrata();
     /**
      * GLAVNA SOBANA
      * **/
@@ -169,6 +170,12 @@ MainChamber.prototype.create = function () {
             fireEffect.clone("tretjiFireEffect").attachToMesh(bakla3);
 
         });
+    }
+
+    function vrata() {
+        var doorMaterial = createMaterial(this.scene, 'assets/textures/rockDoors.jpg', 'doorMaterial', 1.0, 0.5, new BABYLON.Color3.Black());
+        var izhod = createBox(this.scene, doorMaterial, 4, 9, 1, 'izhod');
+        izhod = properties(izhod, -25, 2.0, -2.5, 0, 0, 0, 1, 1, 1);
     }
 };
 

@@ -28,7 +28,7 @@ function initScene() {
     scene = new BABYLON.Scene(engine);
 
     /* set default camera */
-    var camera = new BABYLON.FreeCamera('camera', new BABYLON.Vector3(-250, 40, 40), scene);
+    var camera = new BABYLON.FreeCamera('camera', new BABYLON.Vector3(0, 40, 40), scene);
     camera.setTarget(BABYLON.Vector3.Zero());
     camera.attachControl(canvas);
 
