@@ -18,7 +18,7 @@ function createBox(scene, groundMaterial, boxlength, boxheight, boxwidth,ime) {
         height: boxheight,
         width: boxwidth
     }, scene);
-    groundMaterial.maxsimultaneousLights = 6;
+    groundMaterial.maxsimultaneousLights = 30;
     ground.material = groundMaterial;
     //ground.setPhysicsState({ impostor: BABYLON.PhysicsEngine.BoxImpostor, move:false});
     return ground;

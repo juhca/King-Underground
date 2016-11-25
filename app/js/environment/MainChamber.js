@@ -35,7 +35,7 @@ MainChamber.prototype.create = function () {
     var tableHeight = 1;
     glavna_sobana_miza(tableDiameter, tableHeight, stepNum, stepHeight);
     glavna_sobana_obok(groundMaterial, roomLength);
-    postavi_bakle(roomLength);
+    postavi_bakle(roomLength, ground);
     /**
      * GLAVNA SOBANA
      * **/
@@ -133,7 +133,7 @@ MainChamber.prototype.create = function () {
         var obok5d = clone_and_properties(obok5l, 'obok5d', 0, 0, 4.9, 0, 0, 0, 1, 0.01, 1);
     }
 
-    function postavi_bakle(roomLength) {
+    function postavi_bakle(roomLength, ground) {
         var bakla;
         BABYLON.SceneLoader.ImportMesh('', 'assets/other/Torch/','Torch.babylon', this.scene, function (newMeshes) {
                 // prva bakla
