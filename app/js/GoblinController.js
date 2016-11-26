@@ -48,7 +48,10 @@ GoblinController.prototype = {
     initialSpawn: function() {
         var positions = [
             [-150, 0, -10],
-            [-150, 0, 10]
+            [-150, 0, 10],
+            [-175, 22, 75],
+            [-162, 34, 125],
+            [-162, 34, 153]
         ];
 
         for (var i = 0; i < positions.length; i++) {
