@@ -10,11 +10,11 @@ LastChamber.prototype.create = function () {
     var _this = this;
     tla_stene();
     levers();
-
+    hodnik();
 
     function tla_stene() {
         // kreiraj material za tla
-        var groundMaterial = createMaterial(this.scene, 'assets/textures/rock1.jpg', 'tla', 8.0, 16.0, new BABYLON.Color3.Black());
+        var groundMaterial = createMaterial(this.scene, 'assets/textures/floor.jpg', 'tla', 8.0, 16.0, new BABYLON.Color3.Black());
         var ground = createBox(this.scene, groundMaterial, 100, 1, 100, 'ground');
         ground = properties(ground, -328.0, 44.35, 150, 0, 0, 0, 1, 1, 1);
 
@@ -97,5 +97,23 @@ LastChamber.prototype.create = function () {
                 _this.scene.beginDirectAnimation(target, [tAnim], 0, 100, false, 1.0);
             }
         }
+    }
+    
+    function hodnik() {
+        // tla
+        var groundMaterial = createMaterial(this.scene, 'assets/textures/floor.jpg', 'tla', 8.0, 4.0, new BABYLON.Color3.Black());
+        var ground = createBox(this.scene, groundMaterial, 100, 1, 12, 'ground');
+        ground = properties(ground, -428.0, 44.35, 153, 0, (Math.PI/2), 0, 1, 1, 1);
+        // stene
+        var wallMaterial = createMaterial(this.scene, 'assets/textures/roof.jpg', 'stena', 1.0, 2.0, new BABYLON.Color3.Black());
+        var groundWall1 = createWall(this.scene, wallMaterial, 20, 1, 150, 10, 'groundWall1');
+        groundWall1 = properties(groundWall1, -436.0, 44.35, 159.5, 0, (Math.PI/2), 0, 1, 1, 1);
+        var groundwall2 = clone_and_properties(groundWall1, 'groundwall2', 0, 0, -12.5, 0, 0, 0, 1, 1, 1);
+        // strop
+        var strop = clone_and_properties(ground, 'strop', 0, 9.35, 0, 0, 0, 0, 1, 1, 1);
+        // box
+        var boxMat =  createMaterial(this.scene, 'assets/textures/LastBoxTexture.png', 'stena', 1.5, 1.0, new BABYLON.Color3.Black());
+        var box = createBox(this.scene, boxMat, 20, 20, 2, 'videoBox');
+        box = properties(box, -470, 50.35, 151.5, 0, 0, 0, 1, 1, 1);
     }
 };

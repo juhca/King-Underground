@@ -28,7 +28,7 @@ function initScene() {
     scene = new BABYLON.Scene(engine);
 
     /* set default camera */
-    //var camera = new BABYLON.FreeCamera('camera', new BABYLON.Vector3(0, 40, 40), scene);
+    //var camera = new BABYLON.FreeCamera('camera', new BABYLON.Vector3(-450, 60, 80), scene);
     //camera.setTarget(BABYLON.Vector3.Zero());
 
     /* change for different camera focus */
@@ -45,7 +45,7 @@ function initScene() {
     // ustvarim luč
     var h = new BABYLON.HemisphericLight('hemi', new BABYLON.Vector3(0, 1, 0), scene);
     h.groundColor = new BABYLON.Color3.Gray();
-    h.intensity = 0.05;
+    h.intensity = 0.15;
 
     /*var showAxis = function(size) {
         var axisX = BABYLON.Mesh.CreateLines("axisX", [new BABYLON.Vector3.Zero(), new BABYLON.Vector3(size, 0, 0) ], scene);
