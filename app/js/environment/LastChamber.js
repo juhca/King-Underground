@@ -60,10 +60,8 @@ LastChamber.prototype.create = function () {
         );
         tAnim.setKeys([
             {frame: 0, value: target.position.y },
-            {frame: 25, value: target.position.y - height / 4 },
-            {frame: 50, value: target.position.y - height / 2},
-            {frame: 55, value: target.position.y - height / 2},
-            {frame: 100, value: target.position.y - height }
+            {frame: 25, value: target.position.y - height / 2 },
+            {frame: 50, value: target.position.y - height + 0.4 }
         ]);
 
         _this.levers.a = new Lever(
@@ -94,7 +92,7 @@ LastChamber.prototype.create = function () {
 
         function handleLevers() {
             if (_this.levers.a.isOn && _this.levers.b.isOn && _this.levers.c.isOn && _this.levers.d.isOn) {
-                _this.scene.beginDirectAnimation(target, [tAnim], 0, 100, false, 1.0);
+                _this.scene.beginDirectAnimation(target, [tAnim], 0, 50, false, 1.0);
             }
         }
     }

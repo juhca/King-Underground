@@ -186,16 +186,14 @@ MainChamber.prototype.create = function () {
         );
         tAnim.setKeys([
             {frame: 0, value: target.position.y },
-            {frame: 25, value: target.position.y - height / 4 },
-            {frame: 50, value: target.position.y - height / 2},
-            {frame: 55, value: target.position.y - height / 2},
-            {frame: 100, value: target.position.y - height }
+            {frame: 25, value: target.position.y - height / 2 },
+            {frame: 50, value: target.position.y - height + 0.1 }
         ]);
 
         var _this = this;
         var mainChamberLever = new Lever(
             new BABYLON.Vector3(-24, 2, -6), new BABYLON.Vector3(0, - Math.PI / 2, 0), this.scene, function() {
-                _this.scene.beginDirectAnimation(target, [tAnim], 0, 100, false, 1.0);
+                _this.scene.beginDirectAnimation(target, [tAnim], 0, 50, false, 1.0);
             }
         );
     }
