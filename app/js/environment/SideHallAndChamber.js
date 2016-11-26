@@ -36,7 +36,7 @@ SideHallAndChamber.prototype.create = function () {
 
     function stranski_hodnik_in_klancina_tla_in_strop(groundMaterial) {
         // tla za hodnik
-        var ground2 = createBox(this.scene, groundMaterial, 40, 1, 20,'ground2');
+        var ground2 = createBox(this.scene, groundMaterial, 40, 5, 20,'ground2');
         ground2 = properties(ground2, -45, 0, -2.5, 0, (Math.PI/2), 0, 1, 0.01, 1);
         // tla za klancino
         var ground3 = createBox(this.scene, groundMaterial, 40, 5, 20, 'ground3');

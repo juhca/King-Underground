@@ -43,7 +43,7 @@ function initScene() {
     scene.fogColor = new BABYLON.Color3(0.05, 0.05, 0.05);
 
     /* set default camera */
-    var cpos = new BABYLON.Vector3(-371.1, 49.0, 153.1); // change for different camera focus
+    var cpos = new BABYLON.Vector3(-220, 7.0, -1); // change for different camera focus
     var camera = new BABYLON.FreeCamera('camera', new BABYLON.Vector3(cpos.x, cpos.y + 15, cpos.z + 15), scene);
     camera.setTarget(cpos);
     camera.attachControl(canvas);
@@ -59,7 +59,7 @@ function initScene() {
 
     new MainEnvironment(scene);
 
-    var hero = new Hero(scene);
+    //var hero = new Hero(scene);
     //var goblin1 = new Goblin(scene, 1, new BABYLON.Vector3(-128, 0.5, 0));
 
 }

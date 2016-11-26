@@ -27,17 +27,17 @@ Lever = function(position, rotation, scene, onEnd) {
 Lever.prototype = {
     _initMesh: function(position, rotation) {
         this.mesh.base = BABYLON.MeshBuilder.CreateBox('leverButton', {height: 1.2/*0.6*/, width: 0.8/*0.4*/, depth: 0.4/*0.2*/}, this.scene);
+        this.mesh.base.material = createMaterial(this.scene, 'assets/textures/tableTop.jpg', 'leverMat', 1.0, 1.0, new BABYLON.Color3.Black());
+
         this.mesh.base.position = position;
         this.mesh.base.rotation = rotation;
-        var lmat = createMaterial(this.scene, 'assets/textures/lever.png', 'leverMat', 1.0, 1.0, new BABYLON.Color3.Black());
-        this.mesh.base.material = lmat;
 
         this.mesh.base.renderOutline = false;
         this.mesh.base.outlineColor = BABYLON.Color3.FromHexString('#6BCAE2');
 
         this.mesh.stick = BABYLON.MeshBuilder.CreateBox('leverStick', {height: 2, width: 0.3, depth: 0.3}, this.scene);
-        var stickMat = createMaterial(this.scene, 'assets/textures/iron.png', 'leverMat', 1.0, 1.0, new BABYLON.Color3.Black());
-        this.mesh.stick.material = stickMat;
+        this.mesh.stick.material = createMaterial(this.scene, 'assets/textures/iron.png', 'leverMat', 2.0, 1.0, new BABYLON.Color3.Black());
+
         this.mesh.stick.rotation.x = -Math.PI/4;
         this.mesh.stick.parent = this.mesh.base;
 

@@ -288,6 +288,7 @@ Hero.prototype = {
 
     handlePick: function() {
         var pick = this.scene.pick(this.scene.pointerX, this.scene.pointerY);
+        console.log(pick.pickedMesh.name);
         if (pick.pickedMesh && pick.pickedMesh.hasOwnProperty('triggerOnPick')) {
             this.activeLeverMesh = pick.pickedMesh;
             pick.pickedMesh.triggerOnPick(this.mesh);
