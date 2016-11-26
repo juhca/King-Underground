@@ -32,6 +32,8 @@ Hero = function(scene) {
 
     this.enemiesNearby = {};
 
+    this.camera = null;
+
     this.pressedKeys = {
         'w': false, 'a': false, 's': false, 'd': false
     };
@@ -44,6 +46,8 @@ Hero = function(scene) {
 
     /* Handle actions */
     this.scene.registerBeforeRender(beforeRender);
+    this.scene.registerAfterRender(afterRender);
+
 
     function beforeRender() {
         if (_this.isWASD()) {
@@ -61,6 +65,20 @@ Hero = function(scene) {
 
         if (!_this.animation.run && _this.animation.weaponRun && _this.animation.weaponRun.animationStarted) {
             _this.stopWeaponAnimation();
+        }
+    }
+
+    function afterRender() {
+        if (_this.camera) {
+            var dir = _this.scene.getMeshByName('herobox').getAbsolutePosition().subtract(_this.camera.position).normalize();
+            var ray = new BABYLON.Ray(_this.camera.position, dir);
+            var pick = _this.scene.pickWithRay(ray, null, false);
+
+            if (pick && pick.pickedMesh && pick.distance > 1.0 && pick.pickedMesh.name !== 'herobox') {
+                //_this.camera.inertialRadiusOffset += pick.distance;
+                _this.camera.radius -= pick.distance;
+                _this.cameraAdjusted = true;
+            }
         }
     }
 };
@@ -85,6 +103,7 @@ Hero.prototype = {
 
             _this.mesh.position.y += 2;
 
+            _this._initBoundingMesh();
             _this._initCamera();
             _this._initSword();
             _this._initCrown();
@@ -131,16 +150,43 @@ Hero.prototype = {
         });
     },
 
+    _initBoundingMesh: function() {
+        var maxBounds = this.mesh.getBoundingInfo().maximum;
+        var minBounds = this.mesh.getBoundingInfo().minimum;
+        var factor = 1.0;
+
+        var heroBoundMesh = BABYLON.MeshBuilder.CreateBox('herobox', {
+            height: maxBounds.y - minBounds.y + factor,
+            width: maxBounds.x - minBounds.x + factor,
+            depth: maxBounds.z - minBounds.z + factor
+        }, this.scene);
+
+        heroBoundMesh.position.y += (maxBounds.y - minBounds.y + factor) / 2;
+
+        heroBoundMesh.material = new BABYLON.StandardMaterial('bmmat', this.scene);
+        heroBoundMesh.material.alpha = 0;
+
+        heroBoundMesh.parent = this.mesh;
+    },
+
     _initCamera: function() {
         var followMesh = BABYLON.MeshBuilder.CreateBox("s", {height: 1, width: 1, depth: 1}, this.scene);
         followMesh.position.y += 15;
         followMesh.isVisible = false;
         followMesh.parent = this.mesh;
 
-        var camera = new BABYLON.ArcRotateCamera('herocam', Math.PI / 2, Math.PI / 4, 18, followMesh, this.scene);
-        camera.attachControl(this.canvas);
+        this.camera = new BABYLON.ArcRotateCamera('herocam', Math.PI / 2, Math.PI / 3, 10, followMesh, this.scene);
 
-        this.scene.activeCamera = camera;
+        this.camera.lowerRadiusLimit = 2;
+        this.camera.upperRadiusLimit = 12;
+        this.camera.lowerBetaLimit = Math.PI / 4;
+        this.camera.upperBetaLimit = Math.PI / 2;
+
+        this.camera.wheelPrecision = 10.0;
+
+        this.camera.attachControl(this.canvas);
+
+        this.scene.activeCamera = this.camera;
         //this.scene.getEngine().isPointerLock = true;
     },
 
