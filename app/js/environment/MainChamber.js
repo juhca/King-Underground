@@ -12,7 +12,7 @@ MainChamber.prototype.create = function () {
         // edge of regular triangle at edges of octagon
     var octagonE = 10;
         // ustvarim material za tla
-    var groundMaterial = createMaterial(this.scene, './assets/textures/floor.jpg', 'ground', 5.0, 5.0, new BABYLON.Color3.Black());
+    var groundMaterial = createMaterial(this.scene, './assets/textures/floor.jpg', 'ground', 20, 20.0, new BABYLON.Color3.Black());
     groundMaterial.maxsimultaneousLights = 6;
     // ustvarim tla
     var ground = createBox(this.scene, groundMaterial, roomLength, 1, roomLength, 'ground');
@@ -114,6 +114,7 @@ MainChamber.prototype.create = function () {
     }
 
     function glavna_sobana_obok(groundMaterial, roomLength) {
+        var groundMaterial = createMaterial(this.scene, './assets/textures/floor - Copy.jpg', 'ground', 20, 20.0, new BABYLON.Color3.Black());
         var obok = createBox(this.scene, groundMaterial, 1.1, 80, 1.1, 'obok');
         obok = properties(obok, -(roomLength/2 - 0.55), 0.4, -0.05, 0, 0, 0, 1, 0.01, 1);
 

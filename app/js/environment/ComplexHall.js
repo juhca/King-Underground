@@ -9,7 +9,7 @@ ComplexHall.prototype.create = function () {
     strop();
     function tla() {
         // kreiraj material za tla
-        var groundMaterial = createMaterial(this.scene, 'assets/textures/rock1.jpg', 'tla', 2.0, 4.0, new BABYLON.Color3.Black());
+        var groundMaterial = createMaterial(this.scene, 'assets/textures/floor.jpg', 'tla', 2.0, 4.0, new BABYLON.Color3.Black());
         var ground = createBox(this.scene, groundMaterial, 5, 1, 40, 'ground');
         ground = properties(ground, -220, -2.05, -1, 0, 0, 0, 1, 1, 1);
 
