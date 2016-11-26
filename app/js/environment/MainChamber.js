@@ -37,6 +37,10 @@ MainChamber.prototype.create = function () {
     glavna_sobana_obok(groundMaterial, roomLength);
     postavi_bakle(roomLength, ground);
     vrata();
+    lever();
+
+
+
     /**
      * GLAVNA SOBANA
      * **/
@@ -174,8 +178,34 @@ MainChamber.prototype.create = function () {
 
     function vrata() {
         var doorMaterial = createMaterial(this.scene, 'assets/textures/rockDoors.jpg', 'doorMaterial', 1.0, 0.5, new BABYLON.Color3.Black());
-        var izhod = createBox(this.scene, doorMaterial, 4, 5, 1, 'izhod');
+        var izhod = createBox(this.scene, doorMaterial, 4, 5, 1, 'doorMainChamber');
         izhod = properties(izhod, -25, 2.5, -2.5, 0, 0, 0, 1, 1, 1);
+    }
+
+    function lever() {
+        /* door animation */
+        var target = this.scene.getMeshByName('doorMainChamber');
+        var height = target.getBoundingInfo().boundingBox.maximum.y - target.getBoundingInfo().boundingBox.minimum.y;
+
+        var tAnim = new BABYLON.Animation(
+            'ltAnim', 'position.y', 30,
+            BABYLON.Animation.ANIMATIONTYPE_FLOAT,
+            BABYLON.Animation.ANIMATIONLOOPMODE_CYCLE
+        );
+        tAnim.setKeys([
+            {frame: 0, value: target.position.y },
+            {frame: 25, value: target.position.y - height / 4 },
+            {frame: 50, value: target.position.y - height / 2},
+            {frame: 55, value: target.position.y - height / 2},
+            {frame: 100, value: target.position.y - height }
+        ]);
+
+        var _this = this;
+        var mainChamberLever = new Lever(
+            new BABYLON.Vector3(-24, 2, -6), new BABYLON.Vector3(0, - Math.PI / 2, 0), this.scene, function() {
+                _this.scene.beginDirectAnimation(target, [tAnim], 0, 100, false, 1.0);
+            }
+        );
     }
 };
 

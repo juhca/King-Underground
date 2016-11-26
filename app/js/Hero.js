@@ -28,6 +28,8 @@ Hero = function(scene) {
     };
     this.attackList = [this.animateSword1, this.animateSword2, this.animateSword3];
 
+    this.activeLeverMesh = null;
+
     this.enemiesNearby = {};
 
     this.pressedKeys = {
@@ -223,6 +225,14 @@ Hero.prototype = {
 
         this.particleSystem.minEmitPower = 5;
         this.particleSystem.maxEmitPower = 10;
+    },
+
+    handlePick: function() {
+        var pick = this.scene.pick(this.scene.pointerX, this.scene.pointerY);
+        if (pick.pickedMesh && pick.pickedMesh.hasOwnProperty('triggerOnPick')) {
+            this.activeLeverMesh = pick.pickedMesh;
+            pick.pickedMesh.triggerOnPick(this.mesh);
+        }
     },
 
     emitBlood: function() {
@@ -434,6 +444,9 @@ Hero.prototype = {
             case 32: // Space
                 this.translation.jump = 100;
                 break;
+            case 69: // E
+                this.handlePick();
+                break;
         }
     },
 
@@ -462,6 +475,9 @@ Hero.prototype = {
                 if (!this.pressedKeys['a']) {
                     this.translation.x = 0;
                 }
+                break;
+            case 69: // E
+                if (this.activeLeverMesh) this.activeLeverMesh.triggerOnStop();
                 break;
         }
         if (!this.isWASD()) {
