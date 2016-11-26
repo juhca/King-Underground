@@ -59,8 +59,8 @@ function initScene() {
 
     new MainEnvironment(scene);
 
-    //var hero = new Hero(scene);
-    //var goblin1 = new Goblin(scene, 1, new BABYLON.Vector3(-128, 0.5, 0));
+    new GoblinController(scene);
+    var hero = new Hero(scene);
 
 }
 
@@ -78,4 +78,8 @@ function initStats() {
     document.getElementById("statsOutput").appendChild(stats.domElement);
 
     return stats;
+}
+
+function randomInRange(start, end) {
+    return Math.random() * (end - start) + start;
 }
