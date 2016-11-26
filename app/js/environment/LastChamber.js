@@ -21,14 +21,14 @@ LastChamber.prototype.create = function () {
         var groundWall31 = clone_and_properties(groundWall1, 'groundWall31', 37, 0, -12.4, 0, (Math.PI/2), 0, 1, 1, 0.5);
         var groundWall32 = clone_and_properties(groundWall31, 'groundWall32', 0, 0, -70.01, 0, 0, 0, 1, 1, 0.5);
             // izhod
-        var groundWall41 = clone_and_properties(groundWall31, 'groundWall41', -80, 0, 0, 0, 0, 0, 1, 1, 0.5);
-        var groundWall42 = clone_and_properties(groundWall32, 'groundWall42', -80, 0, 0, 0, 0, 0, 1, 1, 0.5);
+        var groundWall41 = clone_and_properties(groundWall31, 'groundWall41', -80, 0, 0, 0, 0, 0, 1, 1, 0.45);
+        var groundWall42 = clone_and_properties(groundWall32, 'groundWall42', -80, 0, 0, 0, 0, 0, 1, 1, 0.45);
             // strop
         var strop = clone_and_properties(ground, 'strop', 0, 9.35, 0, 0, 0, 0, 1, 1, 1);
             // vrata
         var doorMaterial = createMaterial(this.scene, 'assets/textures/rockDoors.jpg', 'doorMaterial', 1.0, 1.0, new BABYLON.Color3.Black());
-        var izhod = createBox(this.scene, doorMaterial, 7, 9, 1, 'izhod');
-        izhod = properties(izhod, -370, 49.0, 152.5, 0, 0, 0, 1, 1, 1);
+        var izhod = createBox(this.scene, doorMaterial, 11.5, 9, 1, 'izhod');
+        izhod = properties(izhod, -371.1, 49.0, 153.1, 0, 0, 0, 1, 1, 1);
 
 /*
         var nevidnMesh12 = createBox(this.scene, "", 2, 2, 2, 'nevidnMesh1');

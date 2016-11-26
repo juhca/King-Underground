@@ -28,8 +28,15 @@ function initScene() {
     scene = new BABYLON.Scene(engine);
 
     /* set default camera */
-    var camera = new BABYLON.FreeCamera('camera', new BABYLON.Vector3(0, 40, 40), scene);
-    camera.setTarget(BABYLON.Vector3.Zero());
+    //var camera = new BABYLON.FreeCamera('camera', new BABYLON.Vector3(0, 40, 40), scene);
+    //camera.setTarget(BABYLON.Vector3.Zero());
+
+    /* change for different camera focus */
+    var cpos = new BABYLON.Vector3(-371.1, 49.0, 152.5);
+
+    var camera = new BABYLON.FreeCamera('camera', new BABYLON.Vector3(cpos.x, cpos.y + 15, cpos.z + 15), scene);
+    camera.setTarget(cpos);
+
     camera.attachControl(canvas);
 
     /* physics */

@@ -58,7 +58,7 @@ MainChamber.prototype.create = function () {
         var ceilMaterial = createMaterial(this.scene, './assets/textures/roof.jpg', 'ground', 1.0, 1.0, new BABYLON.Color3.Black());
         var sphereDiameter = roomLength - 2 * wallWidth;
 
-        var ceilSphere = createSphere(this.scene, ceilMaterial, sphereDiameter, wallHeight, 'ceilSphere', 0.5, BABYLON.Mesh.BACKSIDE);
+        var ceilSphere = createSphere(this.scene, ceilMaterial, sphereDiameter, wallHeight, 'ceilSphere', 0.5, BABYLON.Mesh.DOUBLESIDE);
 
         var ceilPlane = createBox(this.scene, ceilMaterial, roomLength, 2, roomLength, 'ceilPlane');
         ceilPlane = properties(ceilPlane, 0, (wallHeight + 1), 0, 0, 0, 0, 1, 1, 1);
@@ -174,8 +174,8 @@ MainChamber.prototype.create = function () {
 
     function vrata() {
         var doorMaterial = createMaterial(this.scene, 'assets/textures/rockDoors.jpg', 'doorMaterial', 1.0, 0.5, new BABYLON.Color3.Black());
-        var izhod = createBox(this.scene, doorMaterial, 4, 9, 1, 'izhod');
-        izhod = properties(izhod, -25, 2.0, -2.5, 0, 0, 0, 1, 1, 1);
+        var izhod = createBox(this.scene, doorMaterial, 4, 5, 1, 'izhod');
+        izhod = properties(izhod, -25, 2.5, -2.5, 0, 0, 0, 1, 1, 1);
     }
 };
 
