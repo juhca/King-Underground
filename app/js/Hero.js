@@ -53,6 +53,7 @@ Hero = function(scene) {
         if (_this.isWASD()) {
             _this.rotateCamera();
         }
+
         if (_this.translation.x || _this.translation.z) {
             var rot = new BABYLON.Matrix();
             _this.mesh.rotationQuaternion.toRotationMatrix(rot);
@@ -77,7 +78,6 @@ Hero = function(scene) {
             if (pick && pick.pickedMesh && pick.distance > 1.0 && pick.pickedMesh.name !== 'herobox') {
                 //_this.camera.inertialRadiusOffset += pick.distance;
                 _this.camera.radius -= pick.distance;
-                _this.cameraAdjusted = true;
             }
         }
     }
@@ -105,6 +105,7 @@ Hero.prototype = {
 
             _this._initBoundingMesh();
             _this._initCamera();
+            _this._initLight();
             _this._initSword();
             _this._initCrown();
 
@@ -188,6 +189,18 @@ Hero.prototype = {
 
         this.scene.activeCamera = this.camera;
         //this.scene.getEngine().isPointerLock = true;
+    },
+
+    _initLight: function() {
+        var light = new BABYLON.SpotLight('herolight',
+            new BABYLON.Vector3(0, 0, 0),
+            new BABYLON.Vector3(0, -1, 15),
+            Math.PI *  35 / 100, 100, this.scene
+        );
+        light.diffuse = new BABYLON.Color3(0.6, 0.6, 0.6);
+        light.specular = new BABYLON.Color3.Black();
+        light.intensity = 0.5;
+        light.parent = this.camera;
     },
 
     _initSword: function() {
@@ -449,6 +462,7 @@ Hero.prototype = {
         var yaw = -Math.atan2(dv.z, dv.x) - Math.PI / 2;
         this.mesh.rotationQuaternion = BABYLON.Quaternion.RotationYawPitchRoll(yaw, 0, 0);
     },
+
     handleMousedown: function(evt) {
         if (evt.which === 1) {
             this.rotateCamera();
