@@ -1,10 +1,16 @@
 LastChamber = function (scene) {
     this.scene = scene;
+
+    this.levers = {
+        a: null, b: null, c: null, d: null
+    };
 };
 
 LastChamber.prototype.create = function () {
-    // naravnost
+    var _this = this;
     tla_stene();
+    levers();
+
 
     function tla_stene() {
         // kreiraj material za tla
@@ -18,16 +24,17 @@ LastChamber.prototype.create = function () {
 
         var groundWall2 = clone_and_properties(groundWall1, 'groundWall2', 0, 0, -100, 0, 0, 0, 1, 1, 1);
             // vhod
-        var groundWall31 = clone_and_properties(groundWall1, 'groundWall31', 37, 0, -12.4, 0, (Math.PI/2), 0, 1, 1, 0.5);
-        var groundWall32 = clone_and_properties(groundWall31, 'groundWall32', 0, 0, -70.01, 0, 0, 0, 1, 1, 0.5);
+        var groundWall31 = createWall(this.scene, wallMaterial, 20, 1, 65, 10, 'groundWall31');
+        groundWall31 = properties(groundWall31, -291.0, 44.35, 178.2, 0, 0, 0, 1, 1, 1);
+        var groundWall32 = clone_and_properties(groundWall31, 'groundWall32', 0, 0, -52.5, 0, 0, 0, 1, 1, 1.1);
             // izhod
-        var groundWall41 = clone_and_properties(groundWall31, 'groundWall41', -80, 0, 0, 0, 0, 0, 1, 1, 0.45);
-        var groundWall42 = clone_and_properties(groundWall32, 'groundWall42', -80, 0, 0, 0, 0, 0, 1, 1, 0.45);
+        var groundWall41 = clone_and_properties(groundWall31, 'groundWall41', -80, 0, 3, 0, 0, 0, 1, 1, 1.0);
+        var groundWall42 = clone_and_properties(groundWall32, 'groundWall42', -80, 0, -2, 0, 0, 0, 1, 1, 1.05);
             // strop
         var strop = clone_and_properties(ground, 'strop', 0, 9.35, 0, 0, 0, 0, 1, 1, 1);
             // vrata
         var doorMaterial = createMaterial(this.scene, 'assets/textures/rockDoors.jpg', 'doorMaterial', 1.0, 1.0, new BABYLON.Color3.Black());
-        var izhod = createBox(this.scene, doorMaterial, 11.5, 9, 1, 'izhod');
+        var izhod = createBox(this.scene, doorMaterial, 11.5, 9, 1, 'doorLastChamber');
         izhod = properties(izhod, -371.1, 49.0, 153.1, 0, 0, 0, 1, 1, 1);
 
 /*
@@ -40,4 +47,55 @@ LastChamber.prototype.create = function () {
         //partikliDaljsi("partikel", 500, 'assets/textures/fire.jpg', nevidnMesh12);
         //var lucka = lucke("baklaLucka2R", new BABYLON.Vector3(-250, 5, 150), new BABYLON.Vector3(0, -1, 0), 10, 10, 5, new BABYLON.Color3(1,1,1), new BABYLON.Color3(1,1,1));
     }
-}
+
+    function levers() {
+        /* door animation */
+        var target = this.scene.getMeshByName('doorLastChamber');
+        var height = target.getBoundingInfo().boundingBox.maximum.y - target.getBoundingInfo().boundingBox.minimum.y;
+
+        var tAnim = new BABYLON.Animation(
+            'ltAnim', 'position.y', 30,
+            BABYLON.Animation.ANIMATIONTYPE_FLOAT,
+            BABYLON.Animation.ANIMATIONLOOPMODE_CYCLE
+        );
+        tAnim.setKeys([
+            {frame: 0, value: target.position.y },
+            {frame: 25, value: target.position.y - height / 4 },
+            {frame: 50, value: target.position.y - height / 2},
+            {frame: 55, value: target.position.y - height / 2},
+            {frame: 100, value: target.position.y - height }
+        ]);
+
+        _this.levers.a = new Lever(
+            new BABYLON.Vector3(-370.5, 47, 160), new BABYLON.Vector3(0, - Math.PI / 2, 0), this.scene, function() {
+                _this.levers.a.isOn = true;
+                handleLevers();
+            }
+        );
+        _this.levers.b = new Lever(
+            new BABYLON.Vector3(-370.5, 47, 146.2), new BABYLON.Vector3(0, - Math.PI / 2, 0), this.scene, function() {
+                _this.levers.b.isOn = true;
+                handleLevers();
+            }
+        );
+        _this.levers.c = new Lever(
+            new BABYLON.Vector3(-330, 47, 101), new BABYLON.Vector3(0, Math.PI, 0), this.scene, function() {
+                _this.levers.c.isOn = true;
+                handleLevers();
+            }
+        );
+        _this.levers.d = new Lever(
+            new BABYLON.Vector3(-330, 47, 200), new BABYLON.Vector3(0, 0, 0), this.scene, function() {
+                _this.levers.d.isOn = true;
+                handleLevers();
+            }
+        );
+
+
+        function handleLevers() {
+            if (_this.levers.a.isOn && _this.levers.b.isOn && _this.levers.c.isOn && _this.levers.d.isOn) {
+                _this.scene.beginDirectAnimation(target, [tAnim], 0, 100, false, 1.0);
+            }
+        }
+    }
+};
