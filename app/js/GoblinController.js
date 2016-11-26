@@ -7,6 +7,7 @@ GoblinController = function(scene) {
     this.particleSystem = null;
 
     this.lastIndex = 0;
+    this.killCount = 0;
 
     this._initMesh();
 
@@ -14,6 +15,11 @@ GoblinController = function(scene) {
     this.scene.executeWhenReady(function() {
         _this.target = _this.scene.getMeshByName(_this.targetName);
         _this.initialSpawn();
+
+        /* initial spawn in last room */
+        for (var n = 0; n < 12; n++) {
+            _this.spawn();
+        }
     });
 };
 
@@ -45,6 +51,11 @@ GoblinController.prototype = {
         });
     },
 
+    createGoblin: function(positionX, positionY, positionZ) {
+        this.lastIndex++;
+        new Goblin(this, this.lastIndex, new BABYLON.Vector3(positionX, positionY, positionZ), this.scene);
+    },
+
     initialSpawn: function() {
         var positions = [
             [-150, 0, -10],
@@ -55,8 +66,27 @@ GoblinController.prototype = {
         ];
 
         for (var i = 0; i < positions.length; i++) {
-            this.lastIndex++;
-            new Goblin(this, this.lastIndex, new BABYLON.Vector3(positions[i][0], positions[i][1], positions[i][2]), scene);
+            this.createGoblin(positions[i][0], positions[i][1], positions[i][2]);
+        }
+    },
+
+    /* spawn in area of last chamber */
+    spawn: function() {
+        var pX = randomInRange(-293, -368);
+        var pY = 45;
+        var pZ = randomInRange(102, 198);
+
+        this.createGoblin(pX, pY, pZ);
+    },
+
+    onDeath: function() {
+        this.killCount++;
+
+        var _this = this;
+        if (this.killCount > 3) {
+            setTimeout(function() {
+                _this.spawn();
+            }, 2000);
         }
     }
 };

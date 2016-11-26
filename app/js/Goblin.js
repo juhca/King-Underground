@@ -1,6 +1,7 @@
-/* use in GoblinController.js */
+/* use with GoblinController.js */
 Goblin = function(GCTRL, index, position, scene) {
     this.scene = scene;
+    this.GCTRL = GCTRL;
     this.mesh = GCTRL.mesh.clone('goblin' + index);
     this.mesh.isVisible = true;
     this.body = null;
@@ -18,7 +19,7 @@ Goblin = function(GCTRL, index, position, scene) {
     this.isMoving = false;
 
     /* collisions */
-    this.aggroRange = 200;
+    this.aggroRange = 125;
     this.sphereAggro = null; // sphere for enemy detection
     this.attackRange = 8;
     this.sphereAttack = null;
@@ -236,6 +237,7 @@ Goblin.prototype = {
                 setTimeout(function() {
                     _this.mesh.dispose();
                     _this.mesh = null;
+                    _this.GCTRL.onDeath();
                 }, 10);
             });
         }
