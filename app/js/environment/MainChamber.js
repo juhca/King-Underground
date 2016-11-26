@@ -150,13 +150,13 @@ MainChamber.prototype.create = function () {
             var bakla3 = clone_and_properties(bakla, 'bakla3', -(roomLength/2 - 2.45), 0, -(roomLength/2 - 1.44), 0, 0, (Math.PI/2), 0.2, 0.2, 0.2);
 
             //var baklaLucka2G = lucke("baklaLucka2G", new BABYLON.Vector3(bakla2.position.x, bakla2.position.y, bakla2.position.z), new BABYLON.Vector3(0.25, 1, 1), 10, 10, 5, new BABYLON.Color3(1,1,1), new BABYLON.Color3(1,1,1));
-            var baklaLucka2R = lucke("baklaLucka2R", new BABYLON.Vector3(bakla2.position.x, bakla2.position.y, bakla2.position.z), new BABYLON.Vector3(0.25, -1, -1), 10, 10, 1.5, new BABYLON.Color3(1,1,1), new BABYLON.Color3(1,1,1));
+            var baklaLucka2R = lucke("baklaLucka2R", new BABYLON.Vector3(bakla2.position.x, bakla2.position.y, bakla2.position.z), new BABYLON.Vector3(0.25, -1, -1), 10, 10, 1.5, new BABYLON.Color3(1.0, 0.549, 0.0), new BABYLON.Color3(1,1,1));
 
             //var baklaLucka1G = lucke("baklaLucka1G", new BABYLON.Vector3(bakla.position.x, bakla.position.y, bakla.position.z), new BABYLON.Vector3(0.25, 1, 0), 10, 10, 5, new BABYLON.Color3(1,1,1), new BABYLON.Color3(1,1,1));
-            var baklaLucka1D = lucke("baklaLucka1D", new BABYLON.Vector3(bakla.position.x, bakla.position.y, bakla.position.z), new BABYLON.Vector3(-1,-1,0), 10, 10, 1.5, new BABYLON.Color3(1,1,1), new BABYLON.Color3(1,1,1));
+            var baklaLucka1D = lucke("baklaLucka1D", new BABYLON.Vector3(bakla.position.x, bakla.position.y, bakla.position.z), new BABYLON.Vector3(-1,-1,0), 10, 10, 1.5, new BABYLON.Color3(1.0, 0.549, 0.0), new BABYLON.Color3(1,1,1));
 
             //var baklaLucka3G = lucke("baklaLucka3G", new BABYLON.Vector3(bakla3.position.x, bakla3.position.y, bakla3.position.z), new BABYLON.Vector3(0, 0.25, 0), 10, 10, 5, new BABYLON.Color3(1,1,1), new BABYLON.Color3(1,1,1));
-            var baklaLucka3R = lucke("baklaLucka3R", new BABYLON.Vector3(bakla3.position.x, bakla3.position.y, bakla3.position.z), new BABYLON.Vector3(-0.25, -1, 1), 10, 10, 1.5, new BABYLON.Color3(1,1,1), new BABYLON.Color3(1,1,1));
+            var baklaLucka3R = lucke("baklaLucka3R", new BABYLON.Vector3(bakla3.position.x, bakla3.position.y, bakla3.position.z), new BABYLON.Vector3(-0.25, -1, 1), 10, 10, 1.5, new BABYLON.Color3(1.0, 0.549, 0.0), new BABYLON.Color3(1,1,1));
 
             var fireEffect = new BABYLON.Sound("FireEffect", "assets/sound-effects/fire.wav", this.scene, function () {
                 console.log("ZDAJ SLEDIS");

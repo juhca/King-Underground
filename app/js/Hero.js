@@ -195,11 +195,11 @@ Hero.prototype = {
         var light = new BABYLON.SpotLight('herolight',
             new BABYLON.Vector3(0, 0, 0),
             new BABYLON.Vector3(0, -1, 15),
-            Math.PI *  35 / 100, 100, this.scene
+            Math.PI *  45 / 100, 30, this.scene
         );
-        light.diffuse = new BABYLON.Color3(0.6, 0.6, 0.6);
+        light.diffuse = new BABYLON.Color3(1.0, 0.549, 0.0);
         light.specular = new BABYLON.Color3.Black();
-        light.intensity = 0.5;
+        //light.intensity = 1.5;
         light.parent = this.camera;
     },
 

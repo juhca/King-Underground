@@ -27,51 +27,35 @@ function onload() {
 function initScene() {
     scene = new BABYLON.Scene(engine);
 
-    /* set default camera */
-    //var camera = new BABYLON.FreeCamera('camera', new BABYLON.Vector3(-450, 60, 80), scene);
-    //camera.setTarget(BABYLON.Vector3.Zero());
-
-    /* change for different camera focus */
-    var cpos = new BABYLON.Vector3(-25, 2.5, -2.5);
-
-    var camera = new BABYLON.FreeCamera('camera', new BABYLON.Vector3(cpos.x, cpos.y + 15, cpos.z + 15), scene);
-    camera.setTarget(cpos);
-
-    camera.attachControl(canvas);
+    scene.clearColor = new BABYLON.Color3.Black();
 
     /* physics */
     scene.enablePhysics(new BABYLON.Vector3(0, -10, 0), new BABYLON.CannonJSPlugin());
 
-    // ustvarim luč
+    /* global light */
     var h = new BABYLON.HemisphericLight('hemi', new BABYLON.Vector3(0, 1, 0), scene);
     h.groundColor = new BABYLON.Color3.Gray();
     h.intensity = 0.15;
 
-    /*var showAxis = function(size) {
-        var axisX = BABYLON.Mesh.CreateLines("axisX", [new BABYLON.Vector3.Zero(), new BABYLON.Vector3(size, 0, 0) ], scene);
-        axisX.color = new BABYLON.Color3(1, 0, 0);
-        var axisY = BABYLON.Mesh.CreateLines("axisY", [new BABYLON.Vector3.Zero(), new BABYLON.Vector3(0, size, 0) ], scene);
-        axisY.color = new BABYLON.Color3(0, 1, 0);
-        var axisZ = BABYLON.Mesh.CreateLines("axisZ", [new BABYLON.Vector3.Zero(), new BABYLON.Vector3(0, 0, size) ], scene);
-        axisZ.color = new BABYLON.Color3(0, 0, 1);
-    };
-    showAxis(50);*/
+    /* fog */
+    scene.fogMode = BABYLON.Scene.FOGMODE_EXP;
+    scene.fogDensity = 0.05;
+    scene.fogColor = new BABYLON.Color3(0.05, 0.05, 0.05);
 
-    /**
-     * FOG
-    **/
-    //scene.fogMode = BABYLON.Scene.FOGMODE_EXP;
-    //scene.fogDensity = 0.1;
+    /* set default camera */
+    var cpos = new BABYLON.Vector3(-25, 2.5, -2.5); // change for different camera focus
+    var camera = new BABYLON.FreeCamera('camera', new BABYLON.Vector3(cpos.x, cpos.y + 15, cpos.z + 15), scene);
+    camera.setTarget(cpos);
+    camera.attachControl(canvas);
 
+
+    /* background music */
     /*
-     * Background music
-     * */
-/*
-     var music = new BABYLON.Sound("Music", "./music/01. BT-7274.mp3", scene, null, {
-     loop: true,
-     autoplay: true
-     });
-     */
+    var music = new BABYLON.Sound("Music", "./music/01. BT-7274.mp3", scene, null, {
+    loop: true,
+    autoplay: true
+    });
+    */
 
     new MainEnvironment(scene);
 
