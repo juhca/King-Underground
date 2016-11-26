@@ -160,7 +160,7 @@ MainChamber.prototype.create = function () {
 
             var fireEffect = new BABYLON.Sound("FireEffect", "assets/sound-effects/fire.wav", this.scene, function () {
                 console.log("ZDAJ SLEDIS");
-            }, {loop: true, autoplay: true, volume: 0.1});
+            }, {loop: true, autoplay: true, volume: 0.03});
             fireEffect.attachToMesh(bakla);
             fireEffect.clone("drugiFireEffect").attachToMesh(bakla2);
             fireEffect.clone("tretjiFireEffect").attachToMesh(bakla3);
