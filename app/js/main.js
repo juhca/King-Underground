@@ -34,8 +34,8 @@ function initScene() {
 
     /* global light */
     var h = new BABYLON.HemisphericLight('hemi', new BABYLON.Vector3(0, 1, 0), scene);
-    h.groundColor = new BABYLON.Color3.Gray();
-    h.intensity = 0.15;
+    //h.groundColor = new BABYLON.Color3.Gray();
+    //h.intensity = 0.15;
 
     /* fog */
     scene.fogMode = BABYLON.Scene.FOGMODE_EXP;
@@ -43,7 +43,7 @@ function initScene() {
     scene.fogColor = new BABYLON.Color3(0.05, 0.05, 0.05);
 
     /* set default camera */
-    var cpos = new BABYLON.Vector3(-25, 2.5, -2.5); // change for different camera focus
+    var cpos = new BABYLON.Vector3(-371.1, 49.0, 153.1); // change for different camera focus
     var camera = new BABYLON.FreeCamera('camera', new BABYLON.Vector3(cpos.x, cpos.y + 15, cpos.z + 15), scene);
     camera.setTarget(cpos);
     camera.attachControl(canvas);

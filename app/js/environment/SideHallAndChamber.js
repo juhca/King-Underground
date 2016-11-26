@@ -60,7 +60,7 @@ SideHallAndChamber.prototype.create = function () {
     }
 
     function drugaDvoranaTla() {
-        var groundMaterial = createMaterial(scene, "assets/textures/floor.jpg", 'ground4', 20, 20, new BABYLON.Color3(0, 0, 0));
+        var groundMaterial = createMaterial(scene, "assets/textures/dirt01.jpg", 'ground4', 20, 20, new BABYLON.Color3(0, 0, 0));
         var ground4 = createBox(scene, groundMaterial, 100, 1, 100, 'ground4');
         ground4.position.x += -150;
         ground4.position.y -= 2;

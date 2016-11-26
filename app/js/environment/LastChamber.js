@@ -14,13 +14,13 @@ LastChamber.prototype.create = function () {
 
     function tla_stene() {
         // kreiraj material za tla
-        var groundMaterial = createMaterial(this.scene, 'assets/textures/floor.jpg', 'tla', 8.0, 16.0, new BABYLON.Color3.Black());
+        var groundMaterial = createMaterial(this.scene, 'assets/textures/dirt01.jpg', 'tla', 8.0, 16.0, new BABYLON.Color3.Black());
         var ground = createBox(this.scene, groundMaterial, 100, 1, 100, 'ground');
         ground = properties(ground, -328.0, 44.35, 150, 0, 0, 0, 1, 1, 1);
 
-        var wallMaterial = createMaterial(this.scene, 'assets/textures/roof.jpg', 'stena', 1.0, 2.0, new BABYLON.Color3.Black());
-        var groundWall1 = createWall(this.scene, wallMaterial, 20, 1, 150, 10, 'groundWall1');
-        groundWall1 = properties(groundWall1, -328.0, 44.35, 200.5, 0, (Math.PI/2), 0, 1, 1, 1);
+        var wallMaterial = createMaterial(this.scene, 'assets/textures/mossy_rock.jpg', 'stena', 4.0, 8.0, new BABYLON.Color3.Black());
+        var groundWall1 = createWall(this.scene, wallMaterial, 20, 1, 100, 10, 'groundWall1');
+        groundWall1 = properties(groundWall1, -331.0, 44.35, 200.5, 0, (Math.PI/2), 0, 1, 1, 1);
 
         var groundWall2 = clone_and_properties(groundWall1, 'groundWall2', 0, 0, -100, 0, 0, 0, 1, 1, 1);
             // vhod
@@ -101,7 +101,7 @@ LastChamber.prototype.create = function () {
     
     function hodnik() {
         // tla
-        var groundMaterial = createMaterial(this.scene, 'assets/textures/floor.jpg', 'tla', 8.0, 4.0, new BABYLON.Color3.Black());
+        var groundMaterial = createMaterial(this.scene, 'assets/textures/dirt01.jpg', 'tla', 7.0, 1.0, new BABYLON.Color3.Black());
         var ground = createBox(this.scene, groundMaterial, 100, 1, 12, 'ground');
         ground = properties(ground, -428.0, 44.35, 153, 0, (Math.PI/2), 0, 1, 1, 1);
         // stene
