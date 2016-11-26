@@ -44,6 +44,8 @@ function initScene() {
 
     // ustvarim luč
     var h = new BABYLON.HemisphericLight('hemi', new BABYLON.Vector3(0, 1, 0), scene);
+    h.groundColor = new BABYLON.Color3.Gray();
+    h.intensity = 0.05;
 
     /*var showAxis = function(size) {
         var axisX = BABYLON.Mesh.CreateLines("axisX", [new BABYLON.Vector3.Zero(), new BABYLON.Vector3(size, 0, 0) ], scene);
