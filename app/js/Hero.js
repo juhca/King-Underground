@@ -180,7 +180,7 @@ Hero.prototype = {
         this.camera.lowerRadiusLimit = 2;
         this.camera.upperRadiusLimit = 12;
         this.camera.lowerBetaLimit = Math.PI / 4;
-        this.camera.upperBetaLimit = Math.PI / 2;
+        this.camera.upperBetaLimit = Math.PI / 2 + Math.PI / 25;
 
         this.camera.wheelPrecision = 10.0;
 
@@ -488,7 +488,7 @@ Hero.prototype = {
                 this.animateRun(this);
                 break;
             case 32: // Space
-                this.translation.jump = 100;
+                this.translation.jump = 80;
                 break;
             case 69: // E
                 this.handlePick();

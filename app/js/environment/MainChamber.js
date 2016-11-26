@@ -22,9 +22,9 @@ MainChamber.prototype.create = function () {
     glavna_sobana_kupola(roomLength, wallHeight, wallWidth);
 
     // podatki za stopnice
-    var stepHeight = 0.2;
+    var stepHeight = 0.1;
     var stepSize = roomLength / 3;
-    var stepNum = 3;
+    var stepNum = 7;
 
     glavna_sobana_platforma(stepHeight, stepSize, stepNum);
     glavna_sobana_stebri(wallHeight, stepHeight, stepSize, stepNum);
@@ -63,6 +63,7 @@ MainChamber.prototype.create = function () {
         var sphereDiameter = roomLength - 2 * wallWidth;
 
         var ceilSphere = createSphere(this.scene, ceilMaterial, sphereDiameter, wallHeight, 'ceilSphere', 0.5, BABYLON.Mesh.DOUBLESIDE);
+        ceilSphere.setPhysicsState({ impostor: BABYLON.PhysicsEngine.BoxImpostor, move:false});
 
         var ceilPlane = createBox(this.scene, ceilMaterial, roomLength, 2, roomLength, 'ceilPlane');
         ceilPlane = properties(ceilPlane, 0, (wallHeight + 1), 0, 0, 0, 0, 1, 1, 1);
@@ -70,6 +71,7 @@ MainChamber.prototype.create = function () {
         var csCSG = BABYLON.CSG.FromMesh(ceilSphere);
         var cpCSG = BABYLON.CSG.FromMesh(ceilPlane);
         var ceilSubplane = (cpCSG.subtract(csCSG)).toMesh('ceilSubplane', ceilMaterial, this.scene, false);
+        ceilSubplane.setPhysicsState({ impostor: BABYLON.PhysicsEngine.BoxImpostor, move:false});
         ceilPlane.dispose();
     }
 
@@ -80,28 +82,16 @@ MainChamber.prototype.create = function () {
         for (var i = 0; i < stepNum; i++) {
             var step = createBox(this.scene, platformMaterial, (stepSize - 4 * i * stepHeight), stepHeight, (stepSize - 4 * i * stepHeight), 'step' + i);
             step.position.y += i * stepHeight + stepHeight / 2;
-            if (!platform) {
-                platform = BABYLON.CSG.FromMesh(step);
-            } else {
-                platform = platform.union(BABYLON.CSG.FromMesh(step));
-            }
-            step.dispose();
-        }
-
-        if (platform) {
-            platform = platform.toMesh('platform', platformMaterial, this.scene, false);
-            platform.setPhysicsState({ impostor: BABYLON.PhysicsEngine.BoxImpostor, move:false});
-        } else {
-            console.error('platform not initiated');
+            step.setPhysicsState({ impostor: BABYLON.PhysicsEngine.BoxImpostor, move:false});
         }
     }
 
     function glavna_sobana_stebri(wallHeight, stepHeight, stepSize, stepNum) {
         var pillarDiameter = 1.5;
-        var pillarHeight = 1.2*wallHeight - stepNum * stepHeight;
+        var pillarHeight = 1.2*wallHeight - stepNum * stepHeight + 22;
         var pillarLocation = ((stepSize - 4 * stepNum * stepHeight) / 2) * 7 / 8;
 
-        var pillarMaterial = createMaterial(this.scene, "./assets/textures/pillar.jpg", 'pillar', 1.5, 2.0, new BABYLON.Color3.Black());
+        var pillarMaterial = createMaterial(this.scene, "./assets/textures/pillar.jpg", 'pillar', 1.5, 4.0, new BABYLON.Color3.Black());
         var pillar = createCylinder(this.scene, pillarMaterial, pillarHeight, pillarDiameter, pillarDiameter, 'pillar1');
         pillar = properties(pillar, pillarLocation, (pillarHeight / 2 + stepNum * stepHeight), pillarLocation, 0, 0, 0, 1, 1, 1);
 

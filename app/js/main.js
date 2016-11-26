@@ -32,7 +32,7 @@ function initScene() {
     //camera.setTarget(BABYLON.Vector3.Zero());
 
     /* change for different camera focus */
-    var cpos = new BABYLON.Vector3(-371.1, 49.0, 153.1);
+    var cpos = new BABYLON.Vector3(-25, 2.5, -2.5);
 
     var camera = new BABYLON.FreeCamera('camera', new BABYLON.Vector3(cpos.x, cpos.y + 15, cpos.z + 15), scene);
     camera.setTarget(cpos);
