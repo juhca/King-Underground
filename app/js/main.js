@@ -60,12 +60,12 @@ function initScene() {
 
 
     /* background music */
-    /*
-    var music = new BABYLON.Sound("Music", "./music/01. BT-7274.mp3", scene, null, {
+
+    var music = new BABYLON.Sound("Music", "./music/DOOM (2016) OST - 42 - Rip & Tear.mp3", scene, null, {
     loop: true,
     autoplay: true
     });
-    */
+
 
     new MainEnvironment(scene);
 
