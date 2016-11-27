@@ -8,9 +8,11 @@ LastChamber = function (scene) {
 
 LastChamber.prototype.create = function () {
     var _this = this;
+
     tla_stene();
     levers();
     hodnik();
+    ending();
 
     function tla_stene() {
         // kreiraj material za tla
@@ -113,5 +115,30 @@ LastChamber.prototype.create = function () {
         var boxMat =  createMaterial(this.scene, 'assets/textures/LastBoxTexture.png', 'stena', 1.5, 1.0, new BABYLON.Color3.Black());
         var box = createBox(this.scene, boxMat, 20, 20, 2, 'videoBox');
         box = properties(box, -470, 50.35, 151.5, 0, 0, 0, 1, 1, 1);
+    }
+
+    function ending() {
+        var end = BABYLON.MeshBuilder.CreateBox('end', {height: 10, width: 50, depth: 12}, this.scene);
+        end.position = new BABYLON.Vector3(-430, 49.0, 153);
+        end.isVisible = false;
+
+        var _this = this;
+        this.scene.executeWhenReady(function() {
+            var target = _this.scene.getMeshByName('hero');
+            end.actionManager = new BABYLON.ActionManager(_this.scene);
+            end.actionManager.registerAction(new BABYLON.ExecuteCodeAction({
+                trigger: BABYLON.ActionManager.OnIntersectionEnterTrigger,
+                parameter: target
+            }, function() {
+                console.log('you win :o');
+                setTimeout(function() {
+                    var engine = _this.scene.getEngine();
+
+                    target.getHero().removeListeners();
+                    _this.scene.dispose();
+                    engine.dispose();
+                }, 1000)
+            }));
+        });
     }
 };

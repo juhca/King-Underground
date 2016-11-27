@@ -247,13 +247,20 @@ Hero.prototype = {
             _this.handleMousedown(evt);
         };
 
-        document.addEventListener('keydown', function(evt) {
+        document.onkeydown = function(evt) {
             _this.handleKeydown(evt);
-        });
+        };
 
-        document.addEventListener('keyup', function(evt) {
+        document.onkeyup = function(evt) {
             _this.handleKeyup(evt);
-        });
+        };
+    },
+
+    removeListeners: function() {
+        this.canvas.oncontextmenu = null;
+        this.canvas.onmousedown = null;
+        document.onkeydown = null;
+        document.onkeyup = null;
     },
 
     _initBloodEmit: function() {
