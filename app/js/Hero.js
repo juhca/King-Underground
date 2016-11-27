@@ -127,7 +127,7 @@ Hero.prototype = {
                 _this.createFrontCollider();
                 _this._initBloodEmit();
 
-                _this._initListeners();
+                _this.initListeners();
             });
 
             /* Animation frames:
@@ -272,7 +272,7 @@ Hero.prototype = {
         });
     },
 
-    _initListeners: function() {
+    initListeners: function() {
         var _this = this;
 
         this.canvas.oncontextmenu = function(evt) {
@@ -550,6 +550,11 @@ Hero.prototype = {
                 break;
             case 69: // E
                 this.handlePick();
+                break;
+            case 27: // esc
+                this.removeListeners();
+                this.scene.getEngine().stopRenderLoop();
+                MENU.pause();
                 break;
         }
     },

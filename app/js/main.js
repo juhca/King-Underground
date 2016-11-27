@@ -1,9 +1,5 @@
-var engine, scene, canvas;
+var engine, scene, canvas, HERO;
 var SHADOWS = {};
-
-//document.addEventListener('DOMContentLoaded', function() {
-//    onload();
-//}, false);
 
 window.addEventListener("resize", function () {
     if (engine) {
@@ -20,12 +16,16 @@ function onload() {
 
     engine.displayLoadingUI();
 
-    var stats = initStats();
-
     initScene();
 
+    runEngine();
+}
+
+function runEngine() {
+    if (HERO) {
+        HERO.initListeners();
+    }
     engine.runRenderLoop(function() {
-        stats.update();
         scene.render();
     });
 }
@@ -69,25 +69,10 @@ function initScene() {
 
     new MainEnvironment(scene);
 
-    var hero = new Hero(scene);
+    HERO = new Hero(scene);
+
     new GoblinController(scene);
 
-}
-
-function initStats() {
-
-    var stats = new Stats();
-
-    stats.setMode(0); // 0: fps, 1: ms
-
-    // Align top-left
-    stats.domElement.style.position = 'absolute';
-    stats.domElement.style.left = '0px';
-    stats.domElement.style.top = '0px';
-
-    document.getElementById("statsOutput").appendChild(stats.domElement);
-
-    return stats;
 }
 
 function randomInRange(start, end) {

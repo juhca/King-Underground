@@ -8,7 +8,6 @@
 
     <script src="http://cdn.babylonjs.com/2-4/babylon.js"></script>
     <script src="js/vendor/cannon.js"></script>
-    <script src="js/vendor/stats.js"></script>
 
     <script src="js/main.js"></script>
     <script src="js/menu.js"></script>
@@ -28,13 +27,13 @@
     <script src="js/environment/ComplexHall.js"></script>
     <script src="js/environment/LastChamber.js"></script>
 </head>
-<body onload="initMenu()">
-    <div id="statsOutput"></div>
+<body onload="MENU.init()">
     <canvas id="renderCanvas"></canvas>
 
     <div id="menu">
         <img class="menu-screen" src="assets/menu/bgimage.png">
         <button type="button" id="start" class="main-btn">Start</button><br/>
+        <button type="button" id="resume" class="main-btn">Resume</button><br/>
         <button type="button" id="instructions" class="main-btn">Instructions</button><br/>
         <button type="button" id="story" class="main-btn">Story</button><br/>
     </div>
