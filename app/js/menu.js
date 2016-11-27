@@ -10,6 +10,9 @@ var MENU = function() {
         document.getElementById('back3').onclick = function() {
             switchVisible('back');
         };
+        document.getElementById('back4').onclick = function() {
+            switchVisible('back');
+        };
 
         document.getElementById('start').onclick = function() {
             startGame('menu');
@@ -27,6 +30,10 @@ var MENU = function() {
         document.getElementById('start1').onclick = function() {
             startGame('dead-screen');
         };
+
+        document.getElementById('start2').onclick = function() {
+            startGame('survived-screen');
+        };
     }
 
     function switchVisible(id) {
@@ -43,6 +50,7 @@ var MENU = function() {
             document.getElementById('story-screen').style.display = 'none';
             document.getElementById('instructions-screen').style.display = 'none';
             document.getElementById('dead-screen').style.display = 'none';
+            document.getElementById('survived-screen').style.display = 'none';
         }
     }
 
@@ -56,6 +64,7 @@ var MENU = function() {
 
             document.getElementById('menu').style.transition = "opacity 0.5s";
             document.getElementById('dead-screen').style.transition = 'opacity 3.0s'
+            document.getElementById('survived-screen').style.transition = 'opacity 3.0s'
         }, 2000);
         onload(); /* in main.js */
     }
@@ -87,9 +96,22 @@ var MENU = function() {
         }, 100);
     }
 
+    function onSurvived() {
+        document.getElementById('menu').style.opacity = 1.0;
+        document.getElementById('resume').style.display = 'none';
+        document.getElementById('start').style.display = 'inline';
+
+        document.getElementById('survived-screen').style.display = 'inline';
+        setTimeout(function() {
+            document.getElementById('survived-screen').style.opacity = 1.0;
+            document.getElementById('survived-screen').style.transition = 'opacity 1.0s';
+        }, 100);
+    }
+
     return {
         init: initMenu,
         pause: pauseGame,
-        died: onDead
+        died: onDead,
+        survived: onSurvived
     }
 }();

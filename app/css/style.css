@@ -65,7 +65,7 @@ button:hover {
     position: relative;
 }
 
-#menu, #story-screen, #instructions-screen, #dead-screen {
+#menu, #story-screen, #instructions-screen, #dead-screen, #survived-screen {
     position: absolute;
     left: 0;
     right: 0;
@@ -93,6 +93,14 @@ button:hover {
 }
 
 #dead-screen {
+    display: none;
+    width: 40vw;
+    top: 60vh;
+    opacity: 0.0;
+    transition: opacity 3.0s;
+}
+
+#survived-screen {
     display: none;
     width: 40vw;
     top: 60vh;

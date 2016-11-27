@@ -130,14 +130,16 @@ LastChamber.prototype.create = function () {
                 trigger: BABYLON.ActionManager.OnIntersectionEnterTrigger,
                 parameter: target
             }, function() {
-                console.log('you win :o');
-                setTimeout(function() {
-                    var engine = _this.scene.getEngine();
-
-                    target.getHero().removeListeners();
-                    _this.scene.dispose();
-                    engine.dispose();
-                }, 1000)
+                target.getHero().removeListeners();
+                _this.scene.getEngine().stopRenderLoop();
+                MENU.survived();
+                //setTimeout(function() {
+                //    var engine = _this.scene.getEngine();
+                //
+                //    target.getHero().removeListeners();
+                //    _this.scene.dispose();
+                //    engine.dispose();
+                //}, 1000)
             }));
         });
     }

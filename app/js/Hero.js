@@ -14,7 +14,7 @@ Hero = function(scene) {
         'jump': 0
     };
 
-    this.hitPoints = 10;
+    this.hitPoints = 100;
     this.isDead = false;
     this.bloodEmitMesh = null;
     this.particleSystem = null;
@@ -359,7 +359,6 @@ Hero.prototype = {
 
         _this.emitBlood();
         _this.hitPoints--;
-        console.info('player hitpoints: ', _this.hitPoints);
 
         if (_this.hitPoints < 1) {
             _this.isDead = true;
