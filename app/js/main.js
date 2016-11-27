@@ -15,6 +15,11 @@ function onload() {
     canvas = document.getElementById('renderCanvas');
     engine = new BABYLON.Engine(canvas, true);
 
+    /* no caching */
+    engine.enableOfflineSupport = false;
+
+    engine.displayLoadingUI();
+
     var stats = initStats();
 
     initScene();
@@ -27,6 +32,10 @@ function onload() {
 
 function initScene() {
     scene = new BABYLON.Scene(engine);
+
+    scene.executeWhenReady(function() {
+        engine.hideLoadingUI();
+    });
 
     scene.clearColor = new BABYLON.Color3.Black();
 
@@ -44,7 +53,7 @@ function initScene() {
     scene.fogColor = new BABYLON.Color3(0.05, 0.05, 0.05);
 
     /* set default camera */
-    var cpos = new BABYLON.Vector3(-371.1, 49.0, 153.1); // change for different camera focus
+    var cpos = new BABYLON.Vector3(100, 50, 50); // change for different camera focus; (100, 50, 50) -> nothing
     var camera = new BABYLON.FreeCamera('camera', new BABYLON.Vector3(cpos.x, cpos.y + 15, cpos.z + 15), scene);
     camera.setTarget(cpos);
     camera.attachControl(canvas);

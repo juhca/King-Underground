@@ -44,8 +44,6 @@ Hero = function(scene) {
 
     var _this = this;
 
-    this._initListeners();
-
     this._init(); // import mesh
 
     /* Handle actions */
@@ -128,6 +126,8 @@ Hero.prototype = {
 
                 _this.createFrontCollider();
                 _this._initBloodEmit();
+
+                _this._initListeners();
             });
 
             /* Animation frames:

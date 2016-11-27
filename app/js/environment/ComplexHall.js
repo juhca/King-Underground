@@ -22,7 +22,6 @@ ComplexHall.prototype.create = function () {
         var cetrtiKlanec = clone_and_properties(ground, 'cetrtiKlanec', 40, 40.25, 154.2, 0, 0, -(Math.PI/10), 1, 1, 1);
         var ravno4 = clone_and_properties(ground, 'ravno4', 1.15, 46.4, 154.2, 0, 0, 0, 1, 1, 1);
         var ravno5 = clone_and_properties(ground, 'ravno5', -38.15, 46.401, 154.2, 0, 0, 0, 1.2, 1, 1);
-        console.log(ravno5.position.y);
     }
     
     function stena() {
