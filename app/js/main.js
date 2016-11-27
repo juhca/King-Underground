@@ -1,9 +1,9 @@
 var engine, scene, canvas;
 var SHADOWS = {};
 
-document.addEventListener('DOMContentLoaded', function() {
-    onload();
-}, false);
+//document.addEventListener('DOMContentLoaded', function() {
+//    onload();
+//}, false);
 
 window.addEventListener("resize", function () {
     if (engine) {

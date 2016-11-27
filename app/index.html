@@ -1,18 +1,26 @@
 <!DOCTYPE html>
 <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+    <title>game:King Underground</title>
+
     <link rel="stylesheet" type="text/css" href="css/style.css" />
+
     <script src="http://cdn.babylonjs.com/2-4/babylon.js"></script>
     <script src="js/vendor/cannon.js"></script>
     <script src="js/vendor/stats.js"></script>
-    <!--<script src="js/vendor/babylon.waterMaterial.js"></script>-->
+
     <script src="js/main.js"></script>
+    <script src="js/menu.js"></script>
     <script src="js/createBoxedMesh.js"></script>
     <script src="js/createSpheredMesh.js"></script>
+
     <script src="js/Hero.js"></script>
     <script src="js/Sword.js"></script>
     <script src="js/GoblinController.js"></script>
     <script src="js/Goblin.js"></script>
     <script src="js/Lever.js"></script>
+
     <script src="js/environment/MainChamber.js"></script>
     <script src="js/environment/MainEnvironment.js"></script>
     <script src="js/environment/SharedFunctions.js"></script>
@@ -20,8 +28,33 @@
     <script src="js/environment/ComplexHall.js"></script>
     <script src="js/environment/LastChamber.js"></script>
 </head>
-<body>
+<body onload="initMenu()">
     <div id="statsOutput"></div>
     <canvas id="renderCanvas"></canvas>
+
+    <div id="menu">
+        <img class="menu-screen" src="assets/menu/bgimage.png">
+        <button type="button" id="start" class="main-btn">Start</button><br/>
+        <button type="button" id="instructions" class="main-btn">Instructions</button><br/>
+        <button type="button" id="story" class="main-btn">Story</button><br/>
+    </div>
+
+    <div id="instructions-screen">
+        <img class="menu-screen" src="assets/menu/instructions.png">
+        <p>
+            Navodila:<br/>
+            Ena<br/>
+            Dva<br/>
+        </p>
+        <button type="button" id="back1" class="back-btn">Back</button>
+    </div>
+
+    <div id="story-screen">
+        <img class="menu-screen" src="assets/menu/story.png">
+        <p>
+            V igri vodimo junaka Kralja Matjaža. Ta, kot poznamo iz njegove legende, spi v jamski dvorani. Tja se je namreč zatekel s svojo vojsko, ko so na njegovo ozemlje vdirale sovražne sile. Kralj Matjaž je bil sicer dober vladar, oboževan s strani svojega ljudstva, ampak toliko manj priljubljen pri vladarjih sosednjih ozemelj. Igra se začne, ko se (tedaj dolgobradi) kralj po dolgem dremežu prebudi. Med njegovim odmorom je deželo posedla tuja vojska in zavladal je nemir. Matjaž seveda želi v svoji kraljevini zopet napraviti mir, zato mora premagati vse sovražnike, pregnati krivico s sveta in zopet zavladati.
+        </p>
+        <button type="button" id="back2" class="back-btn">Back</button>
+
+    </div>
 </body>
-</html>

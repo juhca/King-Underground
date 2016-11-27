@@ -8,7 +8,7 @@ html, body {
 }
 
 body {
-    cursor: url(../assets/other/cursor.png) 15 15, auto !important;
+    cursor: url(../assets/other/cursor.png), auto !important;
 }
 
 #renderCanvas {
@@ -16,5 +16,96 @@ body {
     height: 100%;
     margin: 0;
     padding: 0;
-    cursor: url(../assets/other/cursor.png) 15 15, auto !important;
+    cursor: url(../assets/other/cursor.png), auto !important;
+}
+
+.menu-screen {
+    min-height: 100%;
+    min-width: 100%;
+    height: auto;
+    width: auto;
+    position: fixed;
+    top: -100%; bottom: -100%;
+    left: -100%; right: -100%;
+    margin: auto;
+}
+
+button {
+    background-color: Transparent;
+    color: black;
+    position: absolute;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    border: 1px solid black;
+    border-radius: 25px;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+    font-family: Lucida Console, monaco, monospace;
+    font-size: 32px;
+    font-style: normal;
+    font-variant: normal;
+    font-weight: 500;
+    line-height: 26px;
+    -webkit-transition-duration: 0.4s; /* Safari */
+    transition-duration: 0.4s;
+}
+
+button:hover {
+    background-color: #555555;;
+    color: saddlebrown;
+    cursor: url(../assets/other/cursor.png), auto;
+}
+
+.main-btn {
+    position: relative;
+    margin: 10px 0;
+}
+
+.back-btn {
+    position: relative;
+}
+
+#menu, #story-screen, #instructions-screen {
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    text-align: center;
+}
+
+#menu {
+    width: 40vw;
+    top: 50vh;
+}
+
+#story-screen {
+    display: none;
+    width: 80vw;
+    top: 30vh;
+}
+
+#instructions-screen {
+    display: none;
+    width: 80vw;
+    top: 30vh;
+}
+
+#instructions-screen p {
+    position: relative;
+
+    color: #fff;
+    font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+    font-size: 2em;
+    font-style: normal;
+    font-variant: normal;
+}
+
+#story-screen p {
+    position: relative;
+
+    color: #fff;
+    font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+    font-size: 2em;
+    font-style: normal;
+    font-variant: normal;
 }
