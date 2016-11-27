@@ -27,8 +27,15 @@
     <script src="js/environment/ComplexHall.js"></script>
     <script src="js/environment/LastChamber.js"></script>
 </head>
+
 <body onload="MENU.init()">
+
     <canvas id="renderCanvas"></canvas>
+
+    <div id="life">
+        <img class="heart" src="assets/menu/heart.png" height="40px" width="40px">
+        <span id="hitpoints"></span>
+    </div>
 
     <div id="menu">
         <img class="menu-screen" src="assets/menu/bgimage.png">
@@ -68,4 +75,5 @@
         <button type="button" id="start2" class="main-btn">Restart</button><br/>
         <button type="button" id="back4" class="main-btn">Back</button><br/>
     </div>
+
 </body>

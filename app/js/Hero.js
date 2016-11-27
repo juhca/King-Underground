@@ -111,6 +111,9 @@ Hero.prototype = {
             _this._initSword();
             _this._initCrown();
 
+            /* init hp display */
+            document.getElementById('hitpoints').innerHTML = '' + _this.hitPoints;
+
             _this.animateIdle(_this);
 
             _this.scene.executeWhenReady(function() {
@@ -359,6 +362,8 @@ Hero.prototype = {
 
         _this.emitBlood();
         _this.hitPoints--;
+
+        document.getElementById('hitpoints').innerHTML = '' + _this.hitPoints;
 
         if (_this.hitPoints < 1) {
             _this.isDead = true;
