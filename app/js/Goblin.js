@@ -129,6 +129,7 @@ Goblin.prototype = {
             }
             _this.isMoving = true;
             _this.animateRun();
+            _this.target.getHero().appendEnemy(_this);
         }));
         /* exit */
         this.sphereAggro.actionManager.registerAction(new BABYLON.ExecuteCodeAction({
@@ -140,6 +141,7 @@ Goblin.prototype = {
             }
             _this.isMoving = false;
             _this.animateIdle();
+            _this.target.getHero().removeEnemy(_this.mesh.name);
         }));
 
 
@@ -160,7 +162,6 @@ Goblin.prototype = {
             }
             _this.isMoving = false;
             _this.triggers.isCombat = true;
-            _this.target.getHero().appendEnemy(_this);
         }));
         /* exit */
         this.sphereAttack.actionManager.registerAction(new BABYLON.ExecuteCodeAction({
@@ -173,7 +174,6 @@ Goblin.prototype = {
             _this.isMoving = true;
             _this.triggers.isCombat = false;
             _this.animateRun();
-            _this.target.getHero().removeEnemy(_this.mesh.name);
         }));
     },
 

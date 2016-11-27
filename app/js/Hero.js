@@ -367,9 +367,9 @@ Hero.prototype = {
     },
 
     createFrontCollider: function() {
-        this.attackRangeMesh = BABYLON.MeshBuilder.CreateBox("s", {height: 16, width: 12, depth: 12}, this.scene);
+        this.attackRangeMesh = BABYLON.MeshBuilder.CreateBox("s", {height: 16, width: 17, depth: 15}, this.scene);
         this.attackRangeMesh.position.y += 8;
-        this.attackRangeMesh.position.z -= 6;
+        this.attackRangeMesh.position.z -= 9;
         this.attackRangeMesh.position.x -= 3;
         this.attackRangeMesh.parent = this.mesh;
         this.attackRangeMesh.isVisible = false;
