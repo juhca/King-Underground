@@ -83,13 +83,13 @@ button:hover {
 #story-screen {
     display: none;
     width: 80vw;
-    top: 30vh;
+    top: 20vh;
 }
 
 #instructions-screen {
     display: none;
     width: 80vw;
-    top: 30vh;
+    top: 20vh;
 }
 
 #dead-screen {
@@ -110,7 +110,7 @@ button:hover {
 
 #instructions-screen p {
     position: relative;
-
+    background-color: rgba(253, 188, 73, 0.53);
     color: #fff;
     font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
     font-size: 2em;
@@ -120,7 +120,7 @@ button:hover {
 
 #story-screen p {
     position: relative;
-
+    background-color: rgba(253, 188, 73, 0.53);
     color: #fff;
     font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
     font-size: 2em;
