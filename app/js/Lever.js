@@ -11,6 +11,7 @@ Lever = function(position, rotation, scene, onEnd) {
     this.aoeDiameter = 8;
 
     this.activeAnimation = null;
+    this.activeReverse = null;
     this.isAnimationFinished = false;
 
     this.animation = null;
@@ -55,6 +56,12 @@ Lever.prototype = {
             if (!_this.activeAnimation && hero.intersectsMesh(_this.mesh.aoeSphere, false)) {
 
                 var begin = _this.reverseAnimation.currentFrame ? 50 - Math.floor(_this.reverseAnimation.currentFrame) : 0;
+
+                if (_this.activeReverse) {
+                    _this.activeReverse.reset();
+                    _this.activeReverse.stop();
+                    _this.activeReverse = null;
+                }
 
                 _this.activeAnimation = _this.scene.beginDirectAnimation(_this.mesh.stick, [_this.animation], begin, 50, false, 1.0, function() {
                     _this.isAnimationFinished = true;
@@ -126,7 +133,7 @@ Lever.prototype = {
         if (this.activeAnimation && !this.isAnimationFinished) {
             var begin = 50 - Math.floor(this.animation.currentFrame);
             if (begin !== 50) {
-                this.scene.beginDirectAnimation(this.mesh.stick, [this.reverseAnimation], begin, 50, false, 1.0);
+                this.activeReverse = this.scene.beginDirectAnimation(this.mesh.stick, [this.reverseAnimation], begin, 50, false, 1.0);
             }
             this.activeAnimation.reset();
             this.activeAnimation.stop();
