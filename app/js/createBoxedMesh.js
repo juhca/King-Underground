@@ -21,6 +21,7 @@ function createBox(scene, groundMaterial, boxlength, boxheight, boxwidth,ime) {
     groundMaterial.maxsimultaneousLights = 30;
     ground.material = groundMaterial;
     //ground.setPhysicsState({ impostor: BABYLON.PhysicsEngine.BoxImpostor, move:false});
+    ground.receiveShadows = true;
     return ground;
 }
 
@@ -32,6 +33,7 @@ function createWall(scene, wallMaterial, wallHeight, wallWidth, roomLength, octa
     }, scene);
     wall.material = wallMaterial;
     wall.setPhysicsState({ impostor: BABYLON.PhysicsEngine.BoxImpostor, move:false});
+    wall.receiveShadows = true;
     return wall;
 }
 

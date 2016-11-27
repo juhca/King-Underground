@@ -86,6 +86,11 @@ Goblin.prototype = {
         this.mesh.scaling.y = randomInRange(this.minScale, this.maxScale);
         this.mesh.scaling.z = randomInRange(this.minScale, this.maxScale);
 
+        this.skeleton.prepare();
+        SHADOWS.heroSG.getShadowMap().renderList.push(this.mesh);
+        this.mesh.isHeroSG = true;
+        this.mesh.receiveShadows = true;
+
         /* physics */
         this.body = this.mesh.setPhysicsState({impostor:BABYLON.PhysicsEngine.SphereImpostor, move:true, mass:50, restitution: 0, friction: 0});
         this.body.linearDamping = 0.99;

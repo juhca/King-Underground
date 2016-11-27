@@ -13,13 +13,16 @@ GoblinController = function(scene) {
 
     var _this = this;
     this.scene.executeWhenReady(function() {
-        _this.target = _this.scene.getMeshByName(_this.targetName);
-        _this.initialSpawn();
+        /* wait for shadowgenerator */
+        setTimeout(function() {
+            _this.target = _this.scene.getMeshByName(_this.targetName);
+            _this.initialSpawn();
 
-        /* initial spawn in last room */
-        for (var n = 0; n < 12; n++) {
-            _this.spawn();
-        }
+            /* initial spawn in last room */
+            for (var n = 0; n < 12; n++) {
+                _this.spawn();
+            }
+        }, 200);
     });
 };
 

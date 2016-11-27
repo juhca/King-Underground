@@ -1,4 +1,5 @@
 var engine, scene, canvas;
+var SHADOWS = {};
 
 document.addEventListener('DOMContentLoaded', function() {
     onload();
@@ -59,8 +60,8 @@ function initScene() {
 
     new MainEnvironment(scene);
 
-    new GoblinController(scene);
     var hero = new Hero(scene);
+    new GoblinController(scene);
 
 }
 

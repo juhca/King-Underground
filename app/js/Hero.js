@@ -5,6 +5,7 @@ Hero = function(scene) {
     this.skeleton = null;
     this.body = null;
     this.weapon = null;
+    this.crown = null;
 
     this.defaultVelocity = 8;
     this.translation = {
@@ -33,6 +34,9 @@ Hero = function(scene) {
     this.enemiesNearby = {};
 
     this.camera = null;
+
+    this.light = null;
+    this.shadowGenerator = null;
 
     this.pressedKeys = {
         'w': false, 'a': false, 's': false, 'd': false
@@ -120,6 +124,8 @@ Hero.prototype = {
                     _this.mesh.rotationQuaternion.z = 0;
                 });
 
+                _this._initShadows();
+
                 _this.createFrontCollider();
                 _this._initBloodEmit();
             });
@@ -192,15 +198,45 @@ Hero.prototype = {
     },
 
     _initLight: function() {
-        var light = new BABYLON.SpotLight('herolight',
-            new BABYLON.Vector3(0, 0, 0),
-            new BABYLON.Vector3(0, -1, 15),
-            Math.PI *  45 / 100, 30, this.scene
+        this.light = new BABYLON.SpotLight('herolight',
+            new BABYLON.Vector3(3, 22, -3),
+            new BABYLON.Vector3(0, -1, 0),
+            Math.PI *  150 / 100, 2, this.scene
         );
-        light.diffuse = new BABYLON.Color3(1.0, 0.549, 0.0);
-        light.specular = new BABYLON.Color3.Black();
-        //light.intensity = 1.5;
-        light.parent = this.camera;
+
+        //var s = BABYLON.MeshBuilder.CreateSphere('s', {diameter: 1}, this.scene);
+        //s.material = new BABYLON.StandardMaterial('s', this.scene);
+        //s.material.emissiveColor = new BABYLON.Color3.Yellow();
+        //s.parent = this.light;
+
+        this.light.diffuse = new BABYLON.Color3(1.0, 0.549, 0.0);
+        this.light.specular = new BABYLON.Color3.Black();
+        this.light.parent = this.mesh;
+        this.light.intensity = 0.8;
+    },
+
+    _initShadows: function() {
+        this.shadowGenerator = new BABYLON.ShadowGenerator(2048, this.light);
+        SHADOWS.heroSG = this.shadowGenerator;
+
+        this.shadowGenerator.bias = 0.01;
+        this.shadowGenerator.usePoissonSampling = true;
+
+        this.shadowGenerator.getShadowMap().renderList.push(this.mesh);
+        this.mesh.isHeroSG = true;
+
+        this.shadowGenerator.getShadowMap().renderList.push(this.weapon.mesh);
+        this.weapon.mesh.isHeroSG = true;
+
+        this.shadowGenerator.getShadowMap().renderList.push(this.crown);
+        this.crown.isHeroSG = true;
+
+        this.scene.meshes.forEach(function(mesh) {
+            if (mesh.isVisible && !mesh.isHeroSG && mesh.physicsImpostor) {
+                SHADOWS.heroSG.getShadowMap().renderList.push(mesh);
+                mesh.isHeroSG = true;
+            }
+        });
     },
 
     _initSword: function() {
@@ -219,18 +255,18 @@ Hero.prototype = {
     _initCrown: function() {
         var _this = this;
         BABYLON.SceneLoader.ImportMesh('', 'assets/characters/hero/', 'crown.babylon', this.scene, function(meshes) {
-            var crown = meshes[0];
-            crown.scaling.x *= 6.8;
-            crown.scaling.y *= 7.8;
-            crown.scaling.z *= 8.6;
-            crown.rotation.x += Math.PI - Math.PI * 7 / 100;
-            crown.position.y += 0.6;
-            crown.position.z += 0.06;
+            _this.crown = meshes[0];
+            _this.crown.scaling.x *= 6.8;
+            _this.crown.scaling.y *= 7.8;
+            _this.crown.scaling.z *= 8.6;
+            _this.crown.rotation.x += Math.PI - Math.PI * 7 / 100;
+            _this.crown.position.y += 0.6;
+            _this.crown.position.z += 0.06;
 
             var bones = _this.skeleton.bones;
             for (var i = 0; i < bones.length; i++) {
                 if (bones[i].id === 'Head') {
-                    crown.attachToBone(bones[i], _this.mesh);
+                    _this.crown.attachToBone(bones[i], _this.mesh);
                 }
             }
         });
@@ -295,6 +331,7 @@ Hero.prototype = {
 
     handlePick: function() {
         var pick = this.scene.pick(this.scene.pointerX, this.scene.pointerY);
+        //console.log(pick.pickedMesh);
         if (pick.pickedMesh && pick.pickedMesh.hasOwnProperty('triggerOnPick')) {
             this.activeLeverMesh = pick.pickedMesh;
             pick.pickedMesh.triggerOnPick(this.mesh);

@@ -32,6 +32,8 @@ Lever.prototype = {
         this.mesh.base.position = position;
         this.mesh.base.rotation = rotation;
 
+        this.mesh.base.receiveShadows = true;
+
         this.mesh.base.renderOutline = false;
         this.mesh.base.outlineColor = BABYLON.Color3.FromHexString('#6BCAE2');
 
@@ -40,6 +42,8 @@ Lever.prototype = {
 
         this.mesh.stick.rotation.x = -Math.PI/4;
         this.mesh.stick.parent = this.mesh.base;
+
+        this.mesh.stick.receiveShadows = true;
 
         this.mesh.aoeSphere = new BABYLON.MeshBuilder.CreateSphere('leverSphere', {diameter: this.aoeDiameter}, this.scene);
         this.mesh.aoeSphere.position = position;

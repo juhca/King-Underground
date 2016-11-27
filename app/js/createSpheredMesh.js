@@ -10,6 +10,7 @@ function createSphere(scene, ceilMaterial, sphereDiameter, wallHeight, ime, slic
     }, scene);
     ceilSphere.position.y += wallHeight;
     ceilSphere.material = ceilMaterial;
+    ceilSphere.receiveShadows = true;
     return ceilSphere;
 }
 
@@ -21,5 +22,6 @@ function createCylinder(scene, pillarMaterial, pillarHeight, diameterTop, diamet
     }, scene);
     pillar.material = pillarMaterial;
     pillar.setPhysicsState({ impostor: BABYLON.PhysicsEngine.CylinderImpostor, move:false});
+    pillar.receiveShadows = true;
     return pillar;
 }
