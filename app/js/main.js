@@ -63,7 +63,8 @@ function initScene() {
 
     var music = new BABYLON.Sound("Music", "./music/DOOM (2016) OST - 42 - Rip & Tear.mp3", scene, null, {
     loop: true,
-    autoplay: true
+    autoplay: true,
+    volume: 0.03
     });
 
 
