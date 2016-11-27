@@ -39,21 +39,30 @@ var MENU = function() {
     }
 
     function startGame() {
-        document.getElementById('menu').style.display = 'none';
-        document.getElementById('resume').style.display = 'inline';
-        document.getElementById('start').style.display = 'none';
+        document.getElementById('menu').style.opacity = 0.0;
+        setTimeout(function() {
+            document.getElementById('menu').style.display = 'none';
+            document.getElementById('resume').style.display = 'inline';
+            document.getElementById('start').style.display = 'none';
+
+            document.getElementById('menu').style.transition = "opacity 0.5s";
+        }, 2000);
         onload(); /* in main.js */
     }
 
     function pauseGame() {
-        document.getElementById('renderCanvas').style.display = 'none';
         document.getElementById('menu').style.display = 'inline';
+        setTimeout(function() {
+            document.getElementById('menu').style.opacity = 1.0;
+        }, 100);
     }
 
     function resumeGame() {
-        document.getElementById('renderCanvas').style.display = 'inline';
-        document.getElementById('menu').style.display = 'none';
-        runEngine();
+        document.getElementById('menu').style.opacity = 0.0;
+        setTimeout(function() {
+            document.getElementById('menu').style.display = 'none';
+            runEngine();
+        }, 500);
     }
 
     return {

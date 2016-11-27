@@ -76,6 +76,8 @@ button:hover {
 #menu {
     width: 40vw;
     top: 50vh;
+    opacity: 1.0;
+    transition: opacity 1.0s;
 }
 
 #story-screen {
