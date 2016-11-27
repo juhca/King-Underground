@@ -91,6 +91,8 @@ Goblin.prototype = {
         this.mesh.isHeroSG = true;
         this.mesh.receiveShadows = true;
 
+        this.mesh.isPickable = false; /* dont zoom camera on ray collision */
+
         /* physics */
         this.body = this.mesh.setPhysicsState({impostor:BABYLON.PhysicsEngine.SphereImpostor, move:true, mass:50, restitution: 0, friction: 0});
         this.body.linearDamping = 0.99;
