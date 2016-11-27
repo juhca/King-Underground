@@ -7,9 +7,12 @@ var MENU = function() {
         document.getElementById('back2').onclick = function() {
             switchVisible('back');
         };
+        document.getElementById('back3').onclick = function() {
+            switchVisible('back');
+        };
 
         document.getElementById('start').onclick = function() {
-            startGame();
+            startGame('menu');
         };
         document.getElementById('instructions').onclick = function() {
             switchVisible('instructions');
@@ -19,6 +22,10 @@ var MENU = function() {
         };
         document.getElementById('resume').onclick = function() {
             resumeGame();
+        };
+
+        document.getElementById('start1').onclick = function() {
+            startGame('dead-screen');
         };
     }
 
@@ -35,17 +42,20 @@ var MENU = function() {
             document.getElementById('menu').style.display = 'inline';
             document.getElementById('story-screen').style.display = 'none';
             document.getElementById('instructions-screen').style.display = 'none';
+            document.getElementById('dead-screen').style.display = 'none';
         }
     }
 
-    function startGame() {
-        document.getElementById('menu').style.opacity = 0.0;
+    function startGame(fromScreen) {
+        document.getElementById(fromScreen).style.opacity = 0.0;
         setTimeout(function() {
-            document.getElementById('menu').style.display = 'none';
+            document.getElementById('menu').style.opacity = 0.0;
+            document.getElementById(fromScreen).style.display = 'none';
             document.getElementById('resume').style.display = 'inline';
             document.getElementById('start').style.display = 'none';
 
             document.getElementById('menu').style.transition = "opacity 0.5s";
+            document.getElementById('dead-screen').style.transition = 'opacity 3.0s'
         }, 2000);
         onload(); /* in main.js */
     }
@@ -65,8 +75,21 @@ var MENU = function() {
         }, 500);
     }
 
+    function onDead() {
+        document.getElementById('menu').style.opacity = 1.0;
+        document.getElementById('resume').style.display = 'none';
+        document.getElementById('start').style.display = 'inline';
+
+        document.getElementById('dead-screen').style.display = 'inline';
+        setTimeout(function() {
+            document.getElementById('dead-screen').style.opacity = 1.0;
+            document.getElementById('dead-screen').style.transition = 'opacity 1.0s';
+        }, 100);
+    }
+
     return {
         init: initMenu,
-        pause: pauseGame
+        pause: pauseGame,
+        died: onDead
     }
 }();

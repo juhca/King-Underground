@@ -363,7 +363,14 @@ Hero.prototype = {
 
         if (_this.hitPoints < 1) {
             _this.isDead = true;
+            _this.onDead();
         }
+    },
+
+    onDead: function() {
+        this.removeListeners();
+        this.scene.getEngine().stopRenderLoop();
+        MENU.died();
     },
 
     createFrontCollider: function() {
